@@ -1,7 +1,7 @@
 Privacy:
-  -> This application tries to not collect any metadata if it's applicable
+  -> This application will not collect any metadata if it's applicable
   -> This application does not require public identity like phone number/email
-  -> This application tries to not bind any purchase and system records to anonymous user accounts
+  -> This application will not bind any purchase and system records to anonymous user accounts if it's applicable
 
 Data needed to run the application that you must consent:
   -> Bank Card's First 6 number (Bank Identification Number AKA BIN), this data does not bind to user's account in the service provider's service system
