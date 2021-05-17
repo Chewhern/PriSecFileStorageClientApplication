@@ -1,0 +1,7 @@
+Next Version Update(Allowed user only able to fetch files given permission but not allow to upload files):
+  -> Give permission to allowed user(anonymously) through putting ED25519PK
+  -> Update allowed user ED25519PK
+
+Corporate/Company Version (May have changes):
+  -> Decentralize distribution of ED25519 SK
+  -> Decentralize distribution of XSalsa20 Key
