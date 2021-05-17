@@ -5,6 +5,7 @@ Privacy:
 
 Data needed to run the application that you must consent:
   -> Bank Card's First 6 number (Bank Identification Number AKA BIN), this data does not bind to user's account in the service provider's service system
+  -> Bank Card's Last 4 number, this data does not bind to user's account in the service provider's service system
   -> The IP address that you give to payment provider(Rapyd) when making payment, this data does not bind to user's account in the service provider's service system
   -> Server's file will have a last modification/read or write time to make sure that the anonymous user makes payment.
 
