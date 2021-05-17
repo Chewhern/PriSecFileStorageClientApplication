@@ -1,0 +1,14 @@
+Disclaimer:
+-> All technologies used like C#, libsodium, cryptographic algorithms/protocols was made by corresponding authors/organization. I don't own any of those technologies.
+
+PriSecFileStorageClient License:
+-> Hereby I grant people to use, distribute, modify the source code locally(like make a fork if it's in github or modify locally after downloading the code), but there're
+   conditions that people must agree. Whenever they do any of the above following described things, their source code must also be public and let public to audit them,
+   furthermore, people must credit and appreciate my work. These 2 conditions are requirements when they do any of the above following described things.
+-> People can also use my software to create a subscription based business model.
+-> This whole project before it was used as a business model, it is FOSS(Free Open Source System) but any person who wishes to use this as a business model it will turn into
+   POSS (Paid Open Source System). 
+
+PriSecFileStorageClient Disclaimer to any forked or modified version:
+-> If any of the client/user lost their confidentiality,security,privacy and anonymity after using modified/distributed system that does not originates from PriSecFileStorageClient
+   , PriSecFileStorageClient won't bear any responsibility towards the client/user who uses modified/distributed system made by others.
