@@ -52,4 +52,5 @@ Proposed solution drawbacks(cryptographic symmetric key decentralization with re
 
 [Block cipher based symmetric encryption/decryption]
 1. Regardless of which proposed solutions used because the fact that block cipher won't change the message size(lack of MAC[Message Authentication Code]), the encrypted file in
-   theory won't affect its length. The drawbacks still applied by the drawbacks mentioned by stream cipher based symmetric encryption/decryption.
+   theory won't affect its length. The drawbacks still applied by the drawbacks mentioned by stream cipher based symmetric encryption/decryption and the drawbacks that have on
+   block cipher.
