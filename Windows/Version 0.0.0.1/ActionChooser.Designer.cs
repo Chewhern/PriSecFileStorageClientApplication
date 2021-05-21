@@ -361,7 +361,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(185, 20);
             this.label7.TabIndex = 12;
-            this.label7.Text = "Renew User Directory ID";
+            this.label7.Text = "Renew Server Directory ID";
             // 
             // RenewCheckOutPageURLTB
             // 
