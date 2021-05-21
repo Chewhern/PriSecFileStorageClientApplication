@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1601EDF1-12A6-4371-B1EE-B45BCCE760D1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>PriSecFileStorageClient</RootNamespace>
+    <AssemblyName>PriSecFileStorageClient</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ASodium, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ASodium.0.5.1\lib\net472\ASodium.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountRecovery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AccountRecovery.Designer.cs">
+      <DependentUpon>AccountRecovery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActionChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionChooser.Designer.cs">
+      <DependentUpon>ActionChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AuthenticationChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthenticationChooser.Designer.cs">
+      <DependentUpon>AuthenticationChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckOutPageHolderModel.cs" />
+    <Compile Include="DirectoryIDTempStorage.cs" />
+    <Compile Include="ECDH_ECDSA_Models.cs" />
+    <Compile Include="ETLSSessionIDStorage.cs" />
+    <Compile Include="FileBytesChunkClass.cs" />
+    <Compile Include="FileCreationModel.cs" />
+    <Compile Include="Greetings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Greetings.Designer.cs">
+      <DependentUpon>Greetings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginModels.cs" />
+    <Compile Include="MainFormHolder.cs" />
+    <Compile Include="OwnerCheckFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerCheckFileContent.Designer.cs">
+      <DependentUpon>OwnerCheckFileContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerDecryptFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerDecryptFileContent.Designer.cs">
+      <DependentUpon>OwnerDecryptFileContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerDeleteFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerDeleteFileContent.Designer.cs">
+      <DependentUpon>OwnerDeleteFileContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerUploadFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerUploadFile.Designer.cs">
+      <DependentUpon>OwnerUploadFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Register.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Register.Designer.cs">
+      <DependentUpon>Register.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegisterModel.cs" />
+    <Compile Include="SecureIDGenerator.cs" />
+    <Compile Include="UploadFilesModel.cs" />
+    <Compile Include="UserIDTempStorage.cs" />
+    <EmbeddedResource Include="AccountRecovery.resx">
+      <DependentUpon>AccountRecovery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionChooser.resx">
+      <DependentUpon>ActionChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Greetings.resx">
+      <DependentUpon>Greetings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerCheckFileContent.resx">
+      <DependentUpon>OwnerCheckFileContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerDecryptFileContent.resx">
+      <DependentUpon>OwnerDecryptFileContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerDeleteFileContent.resx">
+      <DependentUpon>OwnerDeleteFileContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerUploadFile.resx">
+      <DependentUpon>OwnerUploadFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Register.resx">
+      <DependentUpon>Register.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
