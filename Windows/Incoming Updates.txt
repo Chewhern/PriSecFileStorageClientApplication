@@ -1,5 +1,7 @@
-Version 0.0.0.2
+Version 0.0.0.2 (2nd and 3rd feature allows transferring of keys between different Windows devices)
   -> Add better error showing mechanism
+  -> Add features to enable offline based E2EE keys and information transmission
+  -> Add features to enable offline backup of crucial keys
 
 Version 0.0.0.3
   -> Try to reduce the "Spaghetti code" and introduce more organized "Atomic code"
