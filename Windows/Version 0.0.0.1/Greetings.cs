@@ -66,11 +66,12 @@ namespace PriSecFileStorageClient
 
         private void Greetings_Load(object sender, EventArgs e)
         {
-            if (SetEnvironmentVariableBoolean == false)
+            //If in actual deployment this was removed.
+            /*if (SetEnvironmentVariableBoolean == false)
             {
                 SetEnvironmentVariableHelper.SetEnvironmentVariable();
                 SetEnvironmentVariableBoolean = true;
-            }
+            }*/
             MyGroupBox.Top = ((ClientSize.Height) - (MyGroupBox.Height)) / 2;
             MyGroupBox.Left = ((ClientSize.Width) - (MyGroupBox.Width)) / 2;
             if (Directory.GetFileSystemEntries(Application.StartupPath + "\\Temp_Session\\").Length == 0 || Directory.GetFileSystemEntries(Application.StartupPath + "\\Temp_Session\\").Length == 1)
