@@ -199,6 +199,7 @@ namespace PriSecFileStorageClient
                                     if (TempBoolean==false && UploadFileErrorChecking == false)
                                     {
                                         UploadFileErrorChecking = true;
+                                        break;
                                     }
                                 }
                                 else
@@ -206,6 +207,7 @@ namespace PriSecFileStorageClient
                                     if (RequestChallengeErrorChecking == false)
                                     {
                                         RequestChallengeErrorChecking = true;
+                                        break;
                                     }
                                 }
                                 if (UploadFileErrorChecking == false && RequestChallengeErrorChecking == false)
@@ -227,6 +229,7 @@ namespace PriSecFileStorageClient
                             if (UploadFileErrorChecking == false && RequestChallengeErrorChecking == false)
                             {
                                 MessageBox.Show("File successfully uploaded to server by chunks/parts, please keep your key safe and private", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show("For the encrypted file that you uploaded, please note down the corresponding file name that links to random file name sent to server.", "Crucial Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
                         else
@@ -426,7 +429,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -548,7 +551,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -696,7 +699,7 @@ namespace PriSecFileStorageClient
                         StringContent PostRequestData = new StringContent(JSONBodyString, Encoding.UTF8, "application/json");
                         using (var client = new HttpClient())
                         {
-                            client.BaseAddress = new Uri("https://{link to API}");
+                            client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(
                                 new MediaTypeWithQualityHeaderValue("application/json"));

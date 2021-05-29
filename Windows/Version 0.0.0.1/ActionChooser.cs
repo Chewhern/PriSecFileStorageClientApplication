@@ -81,6 +81,7 @@ namespace PriSecFileStorageClient
                 {
                     PaymentIDTB.Text = UserPaymentID;
                     DirectoryIDTB.Text = ServerDirectoryID;
+                    MessageBox.Show("You must remember the payment ID as it's required for renewal, as for Directory ID, as long as your folder that stores the program's data still available, you don't need to remember it.", "Crucial Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else 
                 {
@@ -185,11 +186,11 @@ namespace PriSecFileStorageClient
 
         private void GoBTN_Click(object sender, EventArgs e)
         {
-            if(IsOwnerCB.SelectedIndex!=-1 && IsOwnerCB.Text.CompareTo("Yes") == 0 && ServerDirectoryIDTB.Text!=null && ServerDirectoryIDTB.Text.CompareTo("")!=0) 
+            if(IsOwnerCB.SelectedIndex!=-1 && IsOwnerCB.Text.CompareTo("Yes") == 0 && DirectoryIDComboBox.Text!=null && DirectoryIDComboBox.Text.CompareTo("")!=0) 
             {
                 if(ActionCB.SelectedIndex!=-1) 
                 {
-                    DirectoryIDTempStorage.DirectoryID = ServerDirectoryIDTB.Text;
+                    DirectoryIDTempStorage.DirectoryID = DirectoryIDComboBox.Text;
                     if (ActionCB.SelectedIndex == 0) 
                     {
                         var NewForm = new OwnerUploadFile();
@@ -224,9 +225,20 @@ namespace PriSecFileStorageClient
 
         private void ActionChooser_Load(object sender, EventArgs e)
         {
+            String[] DirectoryIDFullPathArray = Directory.GetDirectories(Application.StartupPath + "\\Application_Data\\User\\"+UserIDTempStorage.UserID+"\\Server_Directory_Data\\");
+            String[] DirectoryIDArray = new string[DirectoryIDFullPathArray.Length];
+            int Count = 0;
+            int RootDirectoryCount = 0;
+            RootDirectoryCount = (Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\").Length;
+            while (Count < DirectoryIDFullPathArray.Length) 
+            {
+                DirectoryIDArray[Count] = DirectoryIDFullPathArray[Count].Remove(0, RootDirectoryCount);
+                Count += 1;
+            }
             String[] ListOfCountries = File.ReadAllLines(Application.StartupPath+"\\Country_Codes\\Country_Two_Letter_Codes.txt");
             RenewalCountryCodeCB.Items.AddRange(ListOfCountries);
             CountryCodeCB.Items.AddRange(ListOfCountries);
+            DirectoryIDComboBox.Items.AddRange(DirectoryIDArray);
         }
 
         private void CountryCodeCB_SelectedIndexChanged(object sender, EventArgs e)
@@ -272,7 +284,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedCombinedCipheredCountryCodeByte = SodiumPublicKeyAuth.Sign(CombinedCipheredCountryCodeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -393,7 +405,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedCombinedCipheredED25519PK = SodiumPublicKeyAuth.Sign(CombinedCipheredED25519PK, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -534,7 +546,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -656,7 +668,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -817,7 +829,7 @@ namespace PriSecFileStorageClient
                         ETLSSignedCombinedCipheredNewDirectoryED25519PK = SodiumPublicKeyAuth.Sign(CombinedCipheredNewDirectoryED25519PK, ClientECDSASK);
                         using (var client = new HttpClient())
                         {
-                            client.BaseAddress = new Uri("https://{link to API}");
+                            client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(
                                 new MediaTypeWithQualityHeaderValue("application/json"));

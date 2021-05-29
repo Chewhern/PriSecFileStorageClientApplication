@@ -42,12 +42,12 @@
             this.CheckOutPageIDTB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.RightPanel = new System.Windows.Forms.Panel();
+            this.DirectoryIDComboBox = new System.Windows.Forms.ComboBox();
             this.GoBTN = new System.Windows.Forms.Button();
             this.ActionCB = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.IsOwnerCB = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.ServerDirectoryIDTB = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.MiddlePanel = new System.Windows.Forms.Panel();
             this.RenewalCountryCodeCB = new System.Windows.Forms.ComboBox();
@@ -202,22 +202,31 @@
             // RightPanel
             // 
             this.RightPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.RightPanel.Controls.Add(this.DirectoryIDComboBox);
             this.RightPanel.Controls.Add(this.GoBTN);
             this.RightPanel.Controls.Add(this.ActionCB);
             this.RightPanel.Controls.Add(this.label11);
             this.RightPanel.Controls.Add(this.IsOwnerCB);
             this.RightPanel.Controls.Add(this.label10);
-            this.RightPanel.Controls.Add(this.ServerDirectoryIDTB);
             this.RightPanel.Controls.Add(this.label9);
             this.RightPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RightPanel.Location = new System.Drawing.Point(661, 0);
+            this.RightPanel.Location = new System.Drawing.Point(654, 0);
             this.RightPanel.Name = "RightPanel";
             this.RightPanel.Size = new System.Drawing.Size(363, 654);
             this.RightPanel.TabIndex = 1;
             // 
+            // DirectoryIDComboBox
+            // 
+            this.DirectoryIDComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DirectoryIDComboBox.FormattingEnabled = true;
+            this.DirectoryIDComboBox.Location = new System.Drawing.Point(24, 37);
+            this.DirectoryIDComboBox.Name = "DirectoryIDComboBox";
+            this.DirectoryIDComboBox.Size = new System.Drawing.Size(320, 28);
+            this.DirectoryIDComboBox.TabIndex = 16;
+            // 
             // GoBTN
             // 
-            this.GoBTN.Location = new System.Drawing.Point(24, 273);
+            this.GoBTN.Location = new System.Drawing.Point(24, 250);
             this.GoBTN.Name = "GoBTN";
             this.GoBTN.Size = new System.Drawing.Size(320, 61);
             this.GoBTN.TabIndex = 15;
@@ -234,7 +243,7 @@
             "Compare Endpoint Encrypted Files From Server Locally",
             "Decrypt Fetched Endpoint Encrypted Files From Server",
             "Delete Endpoint Encrypted Files From Server"});
-            this.ActionCB.Location = new System.Drawing.Point(24, 220);
+            this.ActionCB.Location = new System.Drawing.Point(24, 197);
             this.ActionCB.Name = "ActionCB";
             this.ActionCB.Size = new System.Drawing.Size(320, 28);
             this.ActionCB.TabIndex = 5;
@@ -243,7 +252,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(20, 188);
+            this.label11.Location = new System.Drawing.Point(20, 165);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(185, 20);
             this.label11.TabIndex = 4;
@@ -255,7 +264,7 @@
             this.IsOwnerCB.FormattingEnabled = true;
             this.IsOwnerCB.Items.AddRange(new object[] {
             "Yes"});
-            this.IsOwnerCB.Location = new System.Drawing.Point(24, 143);
+            this.IsOwnerCB.Location = new System.Drawing.Point(24, 120);
             this.IsOwnerCB.Name = "IsOwnerCB";
             this.IsOwnerCB.Size = new System.Drawing.Size(320, 28);
             this.IsOwnerCB.TabIndex = 3;
@@ -263,19 +272,11 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(20, 111);
+            this.label10.Location = new System.Drawing.Point(20, 88);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(141, 20);
             this.label10.TabIndex = 2;
             this.label10.Text = "Are you an owner?";
-            // 
-            // ServerDirectoryIDTB
-            // 
-            this.ServerDirectoryIDTB.Location = new System.Drawing.Point(24, 37);
-            this.ServerDirectoryIDTB.Multiline = true;
-            this.ServerDirectoryIDTB.Name = "ServerDirectoryIDTB";
-            this.ServerDirectoryIDTB.Size = new System.Drawing.Size(320, 58);
-            this.ServerDirectoryIDTB.TabIndex = 1;
             // 
             // label9
             // 
@@ -304,7 +305,7 @@
             this.MiddlePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MiddlePanel.Location = new System.Drawing.Point(291, 0);
             this.MiddlePanel.Name = "MiddlePanel";
-            this.MiddlePanel.Size = new System.Drawing.Size(370, 654);
+            this.MiddlePanel.Size = new System.Drawing.Size(363, 654);
             this.MiddlePanel.TabIndex = 2;
             // 
             // RenewalCountryCodeCB
@@ -359,7 +360,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(27, 476);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(185, 20);
+            this.label7.Size = new System.Drawing.Size(197, 20);
             this.label7.TabIndex = 12;
             this.label7.Text = "Renew Server Directory ID";
             // 
@@ -420,7 +421,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 654);
+            this.ClientSize = new System.Drawing.Size(1017, 654);
             this.Controls.Add(this.MiddlePanel);
             this.Controls.Add(this.RightPanel);
             this.Controls.Add(this.LeftPanel);
@@ -428,8 +429,8 @@
             this.MaximizeBox = false;
             this.Name = "ActionChooser";
             this.Text = "Action Chooser";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClosing);
             this.Load += new System.EventHandler(this.ActionChooser_Load);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(OnClosing);
             this.LeftPanel.ResumeLayout(false);
             this.LeftPanel.PerformLayout();
             this.RightPanel.ResumeLayout(false);
@@ -458,7 +459,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox IsOwnerCB;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox ServerDirectoryIDTB;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel MiddlePanel;
         private System.Windows.Forms.Button RenewPaymentBTN;
@@ -476,5 +476,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox RenewalCountryCodeCB;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox DirectoryIDComboBox;
     }
 }
