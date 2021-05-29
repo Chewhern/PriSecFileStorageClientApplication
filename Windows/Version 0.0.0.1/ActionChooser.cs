@@ -284,7 +284,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedCombinedCipheredCountryCodeByte = SodiumPublicKeyAuth.Sign(CombinedCipheredCountryCodeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                        client.BaseAddress = new Uri("{API Base Url}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -405,7 +405,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedCombinedCipheredED25519PK = SodiumPublicKeyAuth.Sign(CombinedCipheredED25519PK, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                        client.BaseAddress = new Uri("{API Base Url}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -546,7 +546,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                        client.BaseAddress = new Uri("{API Base Url}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -668,7 +668,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                        client.BaseAddress = new Uri("{API Base Url}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -829,7 +829,7 @@ namespace PriSecFileStorageClient
                         ETLSSignedCombinedCipheredNewDirectoryED25519PK = SodiumPublicKeyAuth.Sign(CombinedCipheredNewDirectoryED25519PK, ClientECDSASK);
                         using (var client = new HttpClient())
                         {
-                            client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                            client.BaseAddress = new Uri("{API Base Url}");
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(
                                 new MediaTypeWithQualityHeaderValue("application/json"));
