@@ -53,7 +53,6 @@
             this.RenewalCountryCodeCB = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.RenewPaymentBTN = new System.Windows.Forms.Button();
-            this.RenewDirectoryIDTB = new System.Windows.Forms.TextBox();
             this.CreateRenewPaymentBTN = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.RenewCheckOutPageURLTB = new System.Windows.Forms.TextBox();
@@ -62,6 +61,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.RenewCheckOutPageIDTB = new System.Windows.Forms.TextBox();
+            this.RenewServerDirectoryIDCB = new System.Windows.Forms.ComboBox();
             this.LeftPanel.SuspendLayout();
             this.RightPanel.SuspendLayout();
             this.MiddlePanel.SuspendLayout();
@@ -242,7 +242,12 @@
             "Upload Endpoint Encrypted Files",
             "Compare Endpoint Encrypted Files From Server Locally",
             "Decrypt Fetched Endpoint Encrypted Files From Server",
-            "Delete Endpoint Encrypted Files From Server"});
+            "Delete Endpoint Encrypted Files From Server",
+            "Backup information locally",
+            "Create offline E2EE session(No Receiving Chain)[Pending update]",
+            "Upload Digital Signature Public Key of Allowed User[Pending update]",
+            "Upload E2EE encrypted information[Pending update]",
+            "Fetch E2EE encrypted information[Pending update]"});
             this.ActionCB.Location = new System.Drawing.Point(24, 197);
             this.ActionCB.Name = "ActionCB";
             this.ActionCB.Size = new System.Drawing.Size(320, 28);
@@ -290,10 +295,10 @@
             // MiddlePanel
             // 
             this.MiddlePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MiddlePanel.Controls.Add(this.RenewServerDirectoryIDCB);
             this.MiddlePanel.Controls.Add(this.RenewalCountryCodeCB);
             this.MiddlePanel.Controls.Add(this.label13);
             this.MiddlePanel.Controls.Add(this.RenewPaymentBTN);
-            this.MiddlePanel.Controls.Add(this.RenewDirectoryIDTB);
             this.MiddlePanel.Controls.Add(this.CreateRenewPaymentBTN);
             this.MiddlePanel.Controls.Add(this.label7);
             this.MiddlePanel.Controls.Add(this.RenewCheckOutPageURLTB);
@@ -336,14 +341,6 @@
             this.RenewPaymentBTN.Text = "Renew Payment";
             this.RenewPaymentBTN.UseVisualStyleBackColor = true;
             this.RenewPaymentBTN.Click += new System.EventHandler(this.RenewPaymentBTN_Click);
-            // 
-            // RenewDirectoryIDTB
-            // 
-            this.RenewDirectoryIDTB.Location = new System.Drawing.Point(27, 499);
-            this.RenewDirectoryIDTB.Multiline = true;
-            this.RenewDirectoryIDTB.Name = "RenewDirectoryIDTB";
-            this.RenewDirectoryIDTB.Size = new System.Drawing.Size(250, 58);
-            this.RenewDirectoryIDTB.TabIndex = 13;
             // 
             // CreateRenewPaymentBTN
             // 
@@ -417,6 +414,15 @@
             this.RenewCheckOutPageIDTB.Size = new System.Drawing.Size(250, 58);
             this.RenewCheckOutPageIDTB.TabIndex = 11;
             // 
+            // RenewServerDirectoryIDCB
+            // 
+            this.RenewServerDirectoryIDCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RenewServerDirectoryIDCB.FormattingEnabled = true;
+            this.RenewServerDirectoryIDCB.Location = new System.Drawing.Point(27, 499);
+            this.RenewServerDirectoryIDCB.Name = "RenewServerDirectoryIDCB";
+            this.RenewServerDirectoryIDCB.Size = new System.Drawing.Size(250, 28);
+            this.RenewServerDirectoryIDCB.TabIndex = 15;
+            // 
             // ActionChooser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -462,7 +468,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel MiddlePanel;
         private System.Windows.Forms.Button RenewPaymentBTN;
-        private System.Windows.Forms.TextBox RenewDirectoryIDTB;
         private System.Windows.Forms.Button CreateRenewPaymentBTN;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox RenewCheckOutPageURLTB;
@@ -477,5 +482,6 @@
         private System.Windows.Forms.ComboBox RenewalCountryCodeCB;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox DirectoryIDComboBox;
+        private System.Windows.Forms.ComboBox RenewServerDirectoryIDCB;
     }
 }

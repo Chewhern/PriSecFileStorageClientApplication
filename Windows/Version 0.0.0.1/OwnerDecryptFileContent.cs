@@ -27,13 +27,52 @@ namespace PriSecFileStorageClient
             InitializeComponent();
         }
 
+        private void EncryptedRandomFileNameCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (EncryptedRandomFileNameCB.SelectedIndex != -1) 
+            {
+                Byte[] OriginalFileNameByte = new Byte[] { };
+                String FileName = "";
+                Boolean CheckFileNameExists = true;
+                try
+                {
+                    OriginalFileNameByte = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\" + EncryptedRandomFileNameCB.Text + "\\FileName.txt");
+                }
+                catch
+                {
+                    CheckFileNameExists = false;
+                }
+                if (CheckFileNameExists == true)
+                {
+                    FileName = Encoding.UTF8.GetString(OriginalFileNameByte);
+                    MessageBox.Show("The file name from the selected random file name is " + FileName, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Sorry system can't find the file name from the selected random file name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void OwnerDecryptFileContent_Load(object sender, EventArgs e)
         {
-            CheckForIllegalCrossThreadCalls = false;
+            CheckForIllegalCrossThreadCalls = false; 
+            String[] RandomFileIDFullPathArray = Directory.GetDirectories(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\"+DirectoryIDTempStorage.DirectoryID+"\\Encrypted_Files");
+            String[] RandomFileIDArray = new string[RandomFileIDFullPathArray.Length];
+            int Count = 0;
+            int RootDirectoryCount = 0;
+            RootDirectoryCount = (Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\").Length;
+            while (Count < RandomFileIDFullPathArray.Length)
+            {
+                RandomFileIDArray[Count] = RandomFileIDFullPathArray[Count].Remove(0, RootDirectoryCount);
+                Count += 1;
+            }
+            EncryptedRandomFileNameCB.Items.AddRange(RandomFileIDArray);
         }
 
         private void DecryptFetchedFileContentsBTN_Click(object sender, EventArgs e)
         {
+            DecryptFolderSelector.ShowDialog();
             DecryptFileContentsThread = new Thread(BackGroundDecryptFileContent);
             DecryptFileContentsThread.Start();
         }
@@ -42,9 +81,9 @@ namespace PriSecFileStorageClient
         {
             if (DirectoryIDTempStorage.DirectoryID != null && DirectoryIDTempStorage.DirectoryID.CompareTo("") != 0 && UserIDTempStorage.UserID != null && UserIDTempStorage.UserID.CompareTo("") != 0)
             {
-                if (ServerRandomFileNameTB.Text != null && ServerRandomFileNameTB.Text.CompareTo("") != 0)
+                if (EncryptedRandomFileNameCB.Text != null && EncryptedRandomFileNameCB.Text.CompareTo("") != 0)
                 {
-                    String ServerRandomFileName = ServerRandomFileNameTB.Text;
+                    String ServerRandomFileName = EncryptedRandomFileNameCB.Text;
                     String DirectoryID = DirectoryIDTempStorage.DirectoryID;
                     String Base64Challenge = "";
                     Byte[] Base64ChallengeByte = new Byte[] { };
@@ -122,7 +161,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedRandomFileNameByte = SodiumPublicKeyAuth.Sign(RandomFileNameByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -283,7 +322,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -405,7 +444,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -539,7 +578,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedRandomFileNameByte = SodiumPublicKeyAuth.Sign(RandomFileNameByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -674,137 +713,148 @@ namespace PriSecFileStorageClient
 
         public void BackGroundDecryptFileContent()
         {
-            int LoopCount = 1;
-            int Count = int.Parse(FileContentCountTB.Text);
-            String Base64Challenge = "";
-            Byte[] Base64ChallengeByte = new Byte[] { };
-            Byte[] ServerFileContent = new Byte[] { };
-            Byte[] ED25519PK = new Byte[] { };
-            Byte[] VerifiedServerFileContent = new Byte[] { };
-            Byte[] CipherTextWithMAC = new Byte[] { };
-            Byte[] DecryptedFileBytes = new Byte[] { };
-            Byte[] Key = new Byte[] { };
-            Byte[] Nonce = new Byte[] { };
-            Byte[] OriginalFileNameByte = new Byte[] { };
-            String FileName = "";
-            Boolean EncounterError = false;
-            Boolean CheckED25519PKExists = true;
-            Boolean VerifyFileContent = true;
-            Boolean CheckKeyExists = true;
-            Boolean CheckFileNameExists = true;
-            Boolean DecryptChecker = true;
-            GCHandle MyGeneralGCHandle = new GCHandle();
-            FileStream PlainTextFileStream;
-            try
+            if(DecryptFolderSelector.SelectedPath!=null && DecryptFolderSelector.SelectedPath.CompareTo("") != 0) 
             {
-                OriginalFileNameByte = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\" + ServerRandomFileNameTB.Text + "\\FileName.txt");
-            }
-            catch
-            {
-                CheckFileNameExists = false;
-            }
-            if (CheckFileNameExists == true) 
-            {
-                FileName = Encoding.UTF8.GetString(OriginalFileNameByte);
-                if (Directory.Exists(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Decrypted_Files") == false)
+                String DecryptFolderPath = DecryptFolderSelector.SelectedPath;
+                int LoopCount = 1;
+                int Count = int.Parse(FileContentCountTB.Text);
+                String Base64Challenge = "";
+                Byte[] Base64ChallengeByte = new Byte[] { };
+                Byte[] ServerFileContent = new Byte[] { };
+                Byte[] ED25519PK = new Byte[] { };
+                Byte[] VerifiedServerFileContent = new Byte[] { };
+                Byte[] CipherTextWithMAC = new Byte[] { };
+                Byte[] DecryptedFileBytes = new Byte[] { };
+                Byte[] Key = new Byte[] { };
+                Byte[] Nonce = new Byte[] { };
+                Byte[] OriginalFileNameByte = new Byte[] { };
+                String FileName = "";
+                Boolean EncounterError = false;
+                Boolean CheckED25519PKExists = true;
+                Boolean VerifyFileContent = true;
+                Boolean CheckKeyExists = true;
+                Boolean CheckFileNameExists = true;
+                Boolean DecryptChecker = true;
+                GCHandle MyGeneralGCHandle = new GCHandle();
+                FileStream PlainTextFileStream;
+                try
                 {
-                    Directory.CreateDirectory(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Decrypted_Files");
+                    OriginalFileNameByte = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\" + EncryptedRandomFileNameCB.Text + "\\FileName.txt");
                 }
-                PlainTextFileStream = File.OpenWrite(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Decrypted_Files\\" + FileName);
-                while (LoopCount <= Count)
+                catch
                 {
-                    DecryptProgressBar.Maximum = Count;
-                    DecryptProgressBar.Step = 1;
-                    RequestChallenge(ref Base64Challenge);
-                    if (Base64Challenge != null && Base64Challenge.CompareTo("") != 0)
+                    CheckFileNameExists = false;
+                }
+                if (CheckFileNameExists == true)
+                {
+                    FileName = Encoding.UTF8.GetString(OriginalFileNameByte);
+                    if (DecryptFolderPath.Substring(DecryptFolderPath.Length - 1).CompareTo("\\") != 0) 
                     {
-                        Base64ChallengeByte = Convert.FromBase64String(Base64Challenge);
-                        ServerFileContent = GetFileContent(DirectoryIDTempStorage.DirectoryID, ServerRandomFileNameTB.Text, Base64ChallengeByte, LoopCount);
-                        if (ServerFileContent.Length != 0)
+                        PlainTextFileStream = File.OpenWrite(DecryptFolderPath + "\\" + FileName);
+                    }
+                    else 
+                    {
+                        PlainTextFileStream = File.OpenWrite(DecryptFolderPath + FileName);
+                    }
+                    while (LoopCount <= Count)
+                    {
+                        DecryptProgressBar.Maximum = Count;
+                        DecryptProgressBar.Step = 1;
+                        RequestChallenge(ref Base64Challenge);
+                        if (Base64Challenge != null && Base64Challenge.CompareTo("") != 0)
                         {
-                            try 
+                            Base64ChallengeByte = Convert.FromBase64String(Base64Challenge);
+                            ServerFileContent = GetFileContent(DirectoryIDTempStorage.DirectoryID, EncryptedRandomFileNameCB.Text, Base64ChallengeByte, LoopCount);
+                            if (ServerFileContent.Length != 0)
                             {
-                                Key = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\" + ServerRandomFileNameTB.Text + "\\Key\\" + "Key" + LoopCount.ToString() + ".txt");
+                                try
+                                {
+                                    Key = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\" + EncryptedRandomFileNameCB.Text + "\\Key\\" + "Key" + LoopCount.ToString() + ".txt");
+                                }
+                                catch
+                                {
+                                    CheckKeyExists = false;
+                                    break;
+                                }
+                                try
+                                {
+                                    ED25519PK = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\" + EncryptedRandomFileNameCB.Text + "\\ED25519PK\\" + "PK" + LoopCount.ToString() + ".txt");
+                                }
+                                catch
+                                {
+                                    CheckED25519PKExists = false;
+                                    break;
+                                }
+                                try
+                                {
+                                    VerifiedServerFileContent = SodiumPublicKeyAuth.Verify(ServerFileContent, ED25519PK);
+                                }
+                                catch
+                                {
+                                    VerifyFileContent = false;
+                                    break;
+                                }
+                                Nonce = new Byte[SodiumSecretBox.GenerateNonce().Length];
+                                CipherTextWithMAC = new Byte[VerifiedServerFileContent.Length - Nonce.Length];
+                                Array.Copy(VerifiedServerFileContent, Nonce, Nonce.Length);
+                                Array.Copy(VerifiedServerFileContent, Nonce.Length, CipherTextWithMAC, 0, CipherTextWithMAC.Length);
+                                try
+                                {
+                                    DecryptedFileBytes = SodiumSecretBox.Open(CipherTextWithMAC, Nonce, Key);
+                                }
+                                catch
+                                {
+                                    DecryptChecker = false;
+                                    break;
+                                }
+                                PlainTextFileStream.Write(DecryptedFileBytes, 0, DecryptedFileBytes.Length);
+                                DecryptedFileBytes = new Byte[] { };
+                                MyGeneralGCHandle = GCHandle.Alloc(Key, GCHandleType.Pinned);
+                                SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), Key.Length);
+                                MyGeneralGCHandle.Free();
+                                MyGeneralGCHandle = GCHandle.Alloc(ED25519PK, GCHandleType.Pinned);
+                                SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), ED25519PK.Length);
+                                MyGeneralGCHandle.Free();
+                                Key = new Byte[] { };
+                                ED25519PK = new Byte[] { };
+                                if (CheckKeyExists == true && CheckED25519PKExists == true && VerifyFileContent == true && DecryptChecker == true)
+                                {
+                                    DecryptProgressBar.PerformStep();
+                                }
                             }
-                            catch 
+                            else
                             {
-                                CheckKeyExists = false;
+                                EncounterError = true;
+                                MessageBox.Show("Error when getting file content from server side, aborting..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 break;
-                            }
-                            try 
-                            {
-                                ED25519PK = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\" + ServerRandomFileNameTB.Text + "\\ED25519PK\\" + "PK" + LoopCount.ToString() + ".txt");
-                            }
-                            catch 
-                            {
-                                CheckED25519PKExists = false;
-                                break;
-                            }
-                            try 
-                            {
-                                VerifiedServerFileContent = SodiumPublicKeyAuth.Verify(ServerFileContent, ED25519PK);
-                            }
-                            catch 
-                            {
-                                VerifyFileContent = false;
-                                break;
-                            }
-                            Nonce = new Byte[SodiumSecretBox.GenerateNonce().Length];
-                            CipherTextWithMAC = new Byte[VerifiedServerFileContent.Length - Nonce.Length];
-                            Array.Copy(VerifiedServerFileContent, Nonce, Nonce.Length);
-                            Array.Copy(VerifiedServerFileContent,Nonce.Length,CipherTextWithMAC,0,CipherTextWithMAC.Length);
-                            try 
-                            {
-                                DecryptedFileBytes = SodiumSecretBox.Open(CipherTextWithMAC, Nonce, Key);
-                            }
-                            catch 
-                            {
-                                DecryptChecker = false;
-                                break;
-                            }
-                            PlainTextFileStream.Write(DecryptedFileBytes, 0, DecryptedFileBytes.Length);
-                            DecryptedFileBytes = new Byte[] { };
-                            MyGeneralGCHandle = GCHandle.Alloc(Key, GCHandleType.Pinned);
-                            SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), Key.Length);
-                            MyGeneralGCHandle.Free();
-                            MyGeneralGCHandle = GCHandle.Alloc(ED25519PK, GCHandleType.Pinned);
-                            SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), ED25519PK.Length);
-                            MyGeneralGCHandle.Free();
-                            Key = new Byte[] { };
-                            ED25519PK = new Byte[] { };
-                            if(CheckKeyExists==true && CheckED25519PKExists==true && VerifyFileContent==true && DecryptChecker == true) 
-                            {
-                                DecryptProgressBar.PerformStep();
                             }
                         }
                         else
                         {
                             EncounterError = true;
-                            MessageBox.Show("Error when getting file content from server side, aborting..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Error when requesting challenge from server, aborting..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         }
+                        LoopCount += 1;
+                    }
+                    PlainTextFileStream.Close();
+                    if (EncounterError == false && CheckKeyExists == true && CheckED25519PKExists == true && VerifyFileContent == true && DecryptChecker == true)
+                    {
+                        MessageBox.Show("Decryption of file have been done", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        EncounterError = true;
-                        MessageBox.Show("Error when requesting challenge from server, aborting..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
+                        MessageBox.Show("Could not decrypt file properly..,aborting..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    LoopCount += 1;
                 }
-                PlainTextFileStream.Close();
-                if (EncounterError==false && CheckKeyExists == true && CheckED25519PKExists == true && VerifyFileContent == true && DecryptChecker == true) 
+                else
                 {
-                    MessageBox.Show("Decryption of file have been done", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else 
-                {
-                    MessageBox.Show("Could not decrypt file properly..,aborting..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Can't find file name.., decryption of file could not done properly, aborting..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else 
             {
-                MessageBox.Show("Can't find file name.., decryption of file could not done properly, aborting..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("You must choose a folder to let the system know where to put the decrypted file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             DecryptFileContentsThread.Abort();
         }

@@ -29,27 +29,19 @@
         private void InitializeComponent()
         {
             this.DeleteFileContentBTN = new System.Windows.Forms.Button();
-            this.ServerRandomFileNameTB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.EncryptedRandomFileNameCB = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // DeleteFileContentBTN
             // 
-            this.DeleteFileContentBTN.Location = new System.Drawing.Point(16, 122);
+            this.DeleteFileContentBTN.Location = new System.Drawing.Point(16, 85);
             this.DeleteFileContentBTN.Name = "DeleteFileContentBTN";
             this.DeleteFileContentBTN.Size = new System.Drawing.Size(273, 53);
             this.DeleteFileContentBTN.TabIndex = 7;
             this.DeleteFileContentBTN.Text = "Delete File From Server And Local";
             this.DeleteFileContentBTN.UseVisualStyleBackColor = true;
             this.DeleteFileContentBTN.Click += new System.EventHandler(this.DeleteFileContentBTN_Click);
-            // 
-            // ServerRandomFileNameTB
-            // 
-            this.ServerRandomFileNameTB.Location = new System.Drawing.Point(16, 33);
-            this.ServerRandomFileNameTB.Multiline = true;
-            this.ServerRandomFileNameTB.Name = "ServerRandomFileNameTB";
-            this.ServerRandomFileNameTB.Size = new System.Drawing.Size(273, 74);
-            this.ServerRandomFileNameTB.TabIndex = 6;
             // 
             // label1
             // 
@@ -60,16 +52,27 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Server Random File Name";
             // 
+            // EncryptedRandomFileNameCB
+            // 
+            this.EncryptedRandomFileNameCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EncryptedRandomFileNameCB.FormattingEnabled = true;
+            this.EncryptedRandomFileNameCB.Location = new System.Drawing.Point(16, 33);
+            this.EncryptedRandomFileNameCB.Name = "EncryptedRandomFileNameCB";
+            this.EncryptedRandomFileNameCB.Size = new System.Drawing.Size(273, 28);
+            this.EncryptedRandomFileNameCB.TabIndex = 8;
+            this.EncryptedRandomFileNameCB.SelectedIndexChanged += new System.EventHandler(this.EncryptedRandomFileNameCB_SelectedIndexChanged);
+            // 
             // OwnerDeleteFileContent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.EncryptedRandomFileNameCB);
             this.Controls.Add(this.DeleteFileContentBTN);
-            this.Controls.Add(this.ServerRandomFileNameTB);
             this.Controls.Add(this.label1);
             this.Name = "OwnerDeleteFileContent";
             this.Text = "OwnerDeleteFileContent";
+            this.Load += new System.EventHandler(this.OwnerDeleteFileContent_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -78,7 +81,7 @@
         #endregion
 
         private System.Windows.Forms.Button DeleteFileContentBTN;
-        private System.Windows.Forms.TextBox ServerRandomFileNameTB;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox EncryptedRandomFileNameCB;
     }
 }

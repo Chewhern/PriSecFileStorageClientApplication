@@ -24,9 +24,51 @@ namespace PriSecFileStorageClient
             InitializeComponent();
         }
 
+        private void OwnerDeleteFileContent_Load(object sender, EventArgs e)
+        {
+            String[] RandomFileIDFullPathArray = Directory.GetDirectories(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files");
+            String[] RandomFileIDArray = new string[RandomFileIDFullPathArray.Length];
+            int Count = 0;
+            int RootDirectoryCount = 0;
+            RootDirectoryCount = (Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\").Length;
+            while (Count < RandomFileIDFullPathArray.Length)
+            {
+                RandomFileIDArray[Count] = RandomFileIDFullPathArray[Count].Remove(0, RootDirectoryCount);
+                Count += 1;
+            }
+            EncryptedRandomFileNameCB.Items.AddRange(RandomFileIDArray);
+        }
+
+        private void EncryptedRandomFileNameCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (EncryptedRandomFileNameCB.SelectedIndex != -1)
+            {
+                Byte[] OriginalFileNameByte = new Byte[] { };
+                String FileName = "";
+                Boolean CheckFileNameExists = true;
+                try
+                {
+                    OriginalFileNameByte = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\" + EncryptedRandomFileNameCB.Text + "\\FileName.txt");
+                }
+                catch
+                {
+                    CheckFileNameExists = false;
+                }
+                if (CheckFileNameExists == true)
+                {
+                    FileName = Encoding.UTF8.GetString(OriginalFileNameByte);
+                    MessageBox.Show("The file name from the selected random file name is " + FileName, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Sorry system can't find the file name from the selected random file name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void DeleteFileContentBTN_Click(object sender, EventArgs e)
         {
-            if(DirectoryIDTempStorage.DirectoryID!=null && DirectoryIDTempStorage.DirectoryID.CompareTo("")!=0 && ServerRandomFileNameTB.Text!=null && ServerRandomFileNameTB.Text.CompareTo("") != 0) 
+            if(DirectoryIDTempStorage.DirectoryID!=null && DirectoryIDTempStorage.DirectoryID.CompareTo("")!=0 && EncryptedRandomFileNameCB.Text!=null && EncryptedRandomFileNameCB.Text.CompareTo("") != 0) 
             {
                 String Base64Challenge = "";
                 Byte[] Base64ChallengeByte = new Byte[] { };
@@ -35,7 +77,7 @@ namespace PriSecFileStorageClient
                 if(Base64Challenge!=null && Base64Challenge.CompareTo("") != 0) 
                 {
                     Base64ChallengeByte = Convert.FromBase64String(Base64Challenge);
-                    DeleteStatus = DeleteFileContent(DirectoryIDTempStorage.DirectoryID, ServerRandomFileNameTB.Text,Base64ChallengeByte);
+                    DeleteStatus = DeleteFileContent(DirectoryIDTempStorage.DirectoryID, EncryptedRandomFileNameCB.Text,Base64ChallengeByte);
                     if (DeleteStatus == true) 
                     {
                         MessageBox.Show("Successfully deleted directory from both server and client", "Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -84,7 +126,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -206,7 +248,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -338,7 +380,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedRandomFileNameByte = SodiumPublicKeyAuth.Sign(RandomFileNameByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));

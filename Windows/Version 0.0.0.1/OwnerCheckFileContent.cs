@@ -30,9 +30,9 @@ namespace PriSecFileStorageClient
         {
             if(DirectoryIDTempStorage.DirectoryID!=null && DirectoryIDTempStorage.DirectoryID.CompareTo("")!=0 && UserIDTempStorage.UserID!=null && UserIDTempStorage.UserID.CompareTo("") != 0) 
             {
-                if(ServerRandomFileNameTB.Text!=null && ServerRandomFileNameTB.Text.CompareTo("") != 0) 
+                if(EncryptedRandomFileNameCB.Text!=null && EncryptedRandomFileNameCB.Text.CompareTo("") != 0) 
                 {
-                    String ServerRandomFileName = ServerRandomFileNameTB.Text;
+                    String ServerRandomFileName = EncryptedRandomFileNameCB.Text;
                     String DirectoryID = DirectoryIDTempStorage.DirectoryID;
                     String Base64Challenge = "";
                     Byte[] Base64ChallengeByte = new Byte[] { };
@@ -69,7 +69,7 @@ namespace PriSecFileStorageClient
 
         private void CheckFileContentsBTN_Click(object sender, EventArgs e)
         {
-            if(DirectoryIDTempStorage.DirectoryID!=null && DirectoryIDTempStorage.DirectoryID.CompareTo("")!=0 && ServerRandomFileNameTB.Text!=null && ServerRandomFileNameTB.Text.CompareTo("")!=0 && FileContentCountTB.Text!=null && FileContentCountTB.Text.CompareTo("") != 0) 
+            if(DirectoryIDTempStorage.DirectoryID!=null && DirectoryIDTempStorage.DirectoryID.CompareTo("")!=0 && EncryptedRandomFileNameCB.Text!=null && EncryptedRandomFileNameCB.Text.CompareTo("")!=0 && FileContentCountTB.Text!=null && FileContentCountTB.Text.CompareTo("") != 0) 
             {
                 CheckFileContentsThread = new Thread(BackGroundCompareFileContent);
                 CheckFileContentsThread.Start();
@@ -109,7 +109,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -231,7 +231,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -365,7 +365,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedRandomFileNameByte = SodiumPublicKeyAuth.Sign(RandomFileNameByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -541,7 +541,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedRandomFileNameByte = SodiumPublicKeyAuth.Sign(RandomFileNameByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -708,18 +708,18 @@ namespace PriSecFileStorageClient
                 if(Base64Challenge!=null && Base64Challenge.CompareTo("") != 0) 
                 {
                     Base64ChallengeByte = Convert.FromBase64String(Base64Challenge);
-                    ServerFileContent = GetFileContent(DirectoryIDTempStorage.DirectoryID, ServerRandomFileNameTB.Text, Base64ChallengeByte, LoopCount);
-                    LocalFileContent = GetLocalFileContent(DirectoryIDTempStorage.DirectoryID, ServerRandomFileNameTB.Text, LoopCount);
+                    ServerFileContent = GetFileContent(DirectoryIDTempStorage.DirectoryID, EncryptedRandomFileNameCB.Text, Base64ChallengeByte, LoopCount);
+                    LocalFileContent = GetLocalFileContent(DirectoryIDTempStorage.DirectoryID, EncryptedRandomFileNameCB.Text, LoopCount);
                     if(ServerFileContent.Length!=0 && LocalFileContent.Length != 0) 
                     {
                         CompareResult = CompareLocalServerFileContent(LocalFileContent, ServerFileContent);
                         if (CompareResult == true) 
                         {
-                            ResultString = "Local signed encrypted file content " + LoopCount.ToString() + " matched with server anonymous signed encrypted file content";
+                            ResultString = "Match";
                         }
                         else 
                         {
-                            ResultString = "Local signed encrypted file content " + LoopCount.ToString() + " does not match with server anonymous signed encrypted file content";
+                            ResultString = "Not Match";
                         }
                         CheckFileContentStatusLB.Items.Add(ResultString);
                     }
@@ -754,6 +754,48 @@ namespace PriSecFileStorageClient
             }
             CheckFileContentsThread.Abort();
             CheckFileContentsBTN.Enabled = true;
+        }
+
+        private void EncryptedRandomFileNameCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (EncryptedRandomFileNameCB.SelectedIndex != -1)
+            {
+                Byte[] OriginalFileNameByte = new Byte[] { };
+                String FileName = "";
+                Boolean CheckFileNameExists = true;
+                try
+                {
+                    OriginalFileNameByte = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\" + EncryptedRandomFileNameCB.Text + "\\FileName.txt");
+                }
+                catch
+                {
+                    CheckFileNameExists = false;
+                }
+                if (CheckFileNameExists == true)
+                {
+                    FileName = Encoding.UTF8.GetString(OriginalFileNameByte);
+                    MessageBox.Show("The file name from the selected random file name is " + FileName, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Sorry system can't find the file name from the selected random file name", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void OwnerCheckFileContent_Load(object sender, EventArgs e)
+        {
+            String[] RandomFileIDFullPathArray = Directory.GetDirectories(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files");
+            String[] RandomFileIDArray = new string[RandomFileIDFullPathArray.Length];
+            int Count = 0;
+            int RootDirectoryCount = 0;
+            RootDirectoryCount = (Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryIDTempStorage.DirectoryID + "\\Encrypted_Files\\").Length;
+            while (Count < RandomFileIDFullPathArray.Length)
+            {
+                RandomFileIDArray[Count] = RandomFileIDFullPathArray[Count].Remove(0, RootDirectoryCount);
+                Count += 1;
+            }
+            EncryptedRandomFileNameCB.Items.AddRange(RandomFileIDArray);
         }
     }
 }

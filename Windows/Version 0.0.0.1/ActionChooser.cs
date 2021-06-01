@@ -147,10 +147,10 @@ namespace PriSecFileStorageClient
                 }
                 if (ConvertFromBase64String == true) 
                 {
-                    if (RenewCheckOutPageIDTB.Text!=null && RenewCheckOutPageIDTB.Text.CompareTo("")!=0 && RenewDirectoryIDTB.Text!=null && RenewDirectoryIDTB.Text.CompareTo("")!=0 && RenewCheckOutPageIDTB.Text!=null && RenewCheckOutPageIDTB.Text.CompareTo("")!=0) 
+                    if (RenewCheckOutPageIDTB.Text!=null && RenewCheckOutPageIDTB.Text.CompareTo("")!=0 && RenewServerDirectoryIDCB.Text!=null && RenewServerDirectoryIDCB.Text.CompareTo("")!=0 && RenewCheckOutPageIDTB.Text!=null && RenewCheckOutPageIDTB.Text.CompareTo("")!=0) 
                     {
                         CheckOutPageID = RenewCheckOutPageIDTB.Text;
-                        ServerDirectoryID = RenewDirectoryIDTB.Text;
+                        ServerDirectoryID = RenewServerDirectoryIDCB.Text;
                         UserPaymentID = RenewPaymentIDTB.Text;
                         if (Directory.Exists(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + ServerDirectoryID) == true) 
                         {
@@ -211,6 +211,11 @@ namespace PriSecFileStorageClient
                         var NewForm = new OwnerDeleteFileContent();
                         NewForm.Show();
                     }
+                    else if(ActionCB.SelectedIndex == 4) 
+                    {
+                        var NewForm = new OfflineBackupAllKeys();
+                        NewForm.Show();
+                    }
                 }
                 else 
                 {
@@ -239,6 +244,7 @@ namespace PriSecFileStorageClient
             RenewalCountryCodeCB.Items.AddRange(ListOfCountries);
             CountryCodeCB.Items.AddRange(ListOfCountries);
             DirectoryIDComboBox.Items.AddRange(DirectoryIDArray);
+            RenewServerDirectoryIDCB.Items.AddRange(DirectoryIDArray);
         }
 
         private void CountryCodeCB_SelectedIndexChanged(object sender, EventArgs e)
@@ -284,7 +290,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedCombinedCipheredCountryCodeByte = SodiumPublicKeyAuth.Sign(CombinedCipheredCountryCodeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("{API Base Url}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -405,7 +411,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedCombinedCipheredED25519PK = SodiumPublicKeyAuth.Sign(CombinedCipheredED25519PK, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("{API Base Url}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -546,7 +552,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("{API Base Url}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -668,7 +674,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("{API Base Url}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -829,7 +835,7 @@ namespace PriSecFileStorageClient
                         ETLSSignedCombinedCipheredNewDirectoryED25519PK = SodiumPublicKeyAuth.Sign(CombinedCipheredNewDirectoryED25519PK, ClientECDSASK);
                         using (var client = new HttpClient())
                         {
-                            client.BaseAddress = new Uri("{API Base Url}");
+                            client.BaseAddress = new Uri("https://{API URL}");
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(
                                 new MediaTypeWithQualityHeaderValue("application/json"));

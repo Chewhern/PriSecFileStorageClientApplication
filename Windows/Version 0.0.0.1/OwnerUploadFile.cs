@@ -429,7 +429,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("{API Base Url}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -551,7 +551,7 @@ namespace PriSecFileStorageClient
                     ETLSSignedAuthenticationTypeByte = SodiumPublicKeyAuth.Sign(AuthenticationTypeByte, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("{API Base Url}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -699,7 +699,7 @@ namespace PriSecFileStorageClient
                         StringContent PostRequestData = new StringContent(JSONBodyString, Encoding.UTF8, "application/json");
                         using (var client = new HttpClient())
                         {
-                            client.BaseAddress = new Uri("{API Base Url}");
+                            client.BaseAddress = new Uri("https://{API URL}");
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(
                                 new MediaTypeWithQualityHeaderValue("application/json"));
