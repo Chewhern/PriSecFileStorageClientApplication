@@ -81,6 +81,7 @@ namespace PriSecFileStorageClient
                 {
                     PaymentIDTB.Text = UserPaymentID;
                     DirectoryIDTB.Text = ServerDirectoryID;
+                    ReloadDirectoryIDArray();
                     MessageBox.Show("You must remember the payment ID as it's required for renewal, as for Directory ID, as long as your folder that stores the program's data still available, you don't need to remember it.", "Crucial Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else 
@@ -232,18 +233,7 @@ namespace PriSecFileStorageClient
         {
             if (Directory.Exists(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\") == true) 
             {
-                String[] DirectoryIDFullPathArray = Directory.GetDirectories(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\");
-                String[] DirectoryIDArray = new string[DirectoryIDFullPathArray.Length];
-                int Count = 0;
-                int RootDirectoryCount = 0;
-                RootDirectoryCount = (Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\").Length;
-                while (Count < DirectoryIDFullPathArray.Length)
-                {
-                    DirectoryIDArray[Count] = DirectoryIDFullPathArray[Count].Remove(0, RootDirectoryCount);
-                    Count += 1;
-                }
-                DirectoryIDComboBox.Items.AddRange(DirectoryIDArray);
-                RenewServerDirectoryIDCB.Items.AddRange(DirectoryIDArray);
+                ReloadDirectoryIDArray();
             }
             String[] ListOfCountries = File.ReadAllLines(Application.StartupPath + "\\Country_Codes\\Country_Two_Letter_Codes.txt");
             RenewalCountryCodeCB.Items.AddRange(ListOfCountries);
@@ -924,6 +914,25 @@ namespace PriSecFileStorageClient
             {
                 return false;
             }
+        }
+
+
+        public void ReloadDirectoryIDArray()
+        {
+            DirectoryIDComboBox.Items.Clear();
+            RenewServerDirectoryIDCB.Items.Clear();
+            String[] DirectoryIDFullPathArray = Directory.GetDirectories(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\");
+            String[] DirectoryIDArray = new string[DirectoryIDFullPathArray.Length];
+            int Count = 0;
+            int RootDirectoryCount = 0;
+            RootDirectoryCount = (Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\").Length;
+            while (Count < DirectoryIDFullPathArray.Length)
+            {
+                DirectoryIDArray[Count] = DirectoryIDFullPathArray[Count].Remove(0, RootDirectoryCount);
+                Count += 1;
+            }
+            DirectoryIDComboBox.Items.AddRange(DirectoryIDArray);
+            RenewServerDirectoryIDCB.Items.AddRange(DirectoryIDArray);
         }
     }
 }
