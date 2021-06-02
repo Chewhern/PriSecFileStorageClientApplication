@@ -230,21 +230,24 @@ namespace PriSecFileStorageClient
 
         private void ActionChooser_Load(object sender, EventArgs e)
         {
-            String[] DirectoryIDFullPathArray = Directory.GetDirectories(Application.StartupPath + "\\Application_Data\\User\\"+UserIDTempStorage.UserID+"\\Server_Directory_Data\\");
-            String[] DirectoryIDArray = new string[DirectoryIDFullPathArray.Length];
-            int Count = 0;
-            int RootDirectoryCount = 0;
-            RootDirectoryCount = (Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\").Length;
-            while (Count < DirectoryIDFullPathArray.Length) 
+            if (Directory.Exists(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\") == true) 
             {
-                DirectoryIDArray[Count] = DirectoryIDFullPathArray[Count].Remove(0, RootDirectoryCount);
-                Count += 1;
+                String[] DirectoryIDFullPathArray = Directory.GetDirectories(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\");
+                String[] DirectoryIDArray = new string[DirectoryIDFullPathArray.Length];
+                int Count = 0;
+                int RootDirectoryCount = 0;
+                RootDirectoryCount = (Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\").Length;
+                while (Count < DirectoryIDFullPathArray.Length)
+                {
+                    DirectoryIDArray[Count] = DirectoryIDFullPathArray[Count].Remove(0, RootDirectoryCount);
+                    Count += 1;
+                }
+                DirectoryIDComboBox.Items.AddRange(DirectoryIDArray);
+                RenewServerDirectoryIDCB.Items.AddRange(DirectoryIDArray);
             }
-            String[] ListOfCountries = File.ReadAllLines(Application.StartupPath+"\\Country_Codes\\Country_Two_Letter_Codes.txt");
+            String[] ListOfCountries = File.ReadAllLines(Application.StartupPath + "\\Country_Codes\\Country_Two_Letter_Codes.txt");
             RenewalCountryCodeCB.Items.AddRange(ListOfCountries);
             CountryCodeCB.Items.AddRange(ListOfCountries);
-            DirectoryIDComboBox.Items.AddRange(DirectoryIDArray);
-            RenewServerDirectoryIDCB.Items.AddRange(DirectoryIDArray);
         }
 
         private void CountryCodeCB_SelectedIndexChanged(object sender, EventArgs e)
