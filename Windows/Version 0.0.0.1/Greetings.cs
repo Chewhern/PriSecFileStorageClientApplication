@@ -196,38 +196,45 @@ namespace PriSecFileStorageClient
 
                         var ECDH_ECDSA_Models_Result = readTask.Result;
                         MyECDH_ECDSA_Models = JsonConvert.DeserializeObject<ECDH_ECDSA_Models>(ECDH_ECDSA_Models_Result);
-                        ServerECDSAPKByte = Convert.FromBase64String(MyECDH_ECDSA_Models.ECDSA_PK_Base64String);
-                        ServerECDHSPKByte = Convert.FromBase64String(MyECDH_ECDSA_Models.ECDH_SPK_Base64String);
-                        GCHandle ServerECDSAPKByteGCHandle = GCHandle.Alloc(ServerECDSAPKByte, GCHandleType.Pinned);
-                        GCHandle ServerECDHSPKByteGCHandle = GCHandle.Alloc(ServerECDHSPKByte, GCHandleType.Pinned);
-                        try
+                        if(MyECDH_ECDSA_Models.ID_Checker_Message.CompareTo("You still can use the exact same client ID...")==0 || MyECDH_ECDSA_Models.ID_Checker_Message.CompareTo("You have an exact client ID great~") == 0) 
                         {
-                            ServerECDHPKByte = SodiumPublicKeyAuth.Verify(ServerECDHSPKByte, ServerECDSAPKByte);
-                        }
-                        catch (Exception exception)
-                        {
-                            VerifyBoolean = false;
-                            ExceptionString = exception.ToString();
-                            SessionStatus += ExceptionString + Environment.NewLine;
-                        }
-                        if (VerifyBoolean == true)
-                        {
-                            ClientSessionECDSAPKByte = SessionECDSAKeyPair.PublicKey;
-                            SignedClientSessionECDHPKByte = SodiumPublicKeyAuth.Sign(SessionECDHKeyPair.PublicKey, SessionECDSAKeyPair.PrivateKey);
-                            CreateSharedSecret(ref CreateShareSecretStatus, MySession_ID, SignedClientSessionECDHPKByte, ClientSessionECDSAPKByte);
-                            if (CreateShareSecretStatus == true)
+                            ServerECDSAPKByte = Convert.FromBase64String(MyECDH_ECDSA_Models.ECDSA_PK_Base64String);
+                            ServerECDHSPKByte = Convert.FromBase64String(MyECDH_ECDSA_Models.ECDH_SPK_Base64String);
+                            GCHandle ServerECDSAPKByteGCHandle = GCHandle.Alloc(ServerECDSAPKByte, GCHandleType.Pinned);
+                            GCHandle ServerECDHSPKByteGCHandle = GCHandle.Alloc(ServerECDHSPKByte, GCHandleType.Pinned);
+                            try
                             {
-                                CheckSharedSecret(ref CheckSharedSecretStatus, MySession_ID, ServerECDHPKByte, SessionECDHKeyPair.PrivateKey, SessionECDSAKeyPair.PrivateKey);
+                                ServerECDHPKByte = SodiumPublicKeyAuth.Verify(ServerECDHSPKByte, ServerECDSAPKByte);
                             }
+                            catch (Exception exception)
+                            {
+                                VerifyBoolean = false;
+                                ExceptionString = exception.ToString();
+                                SessionStatus += ExceptionString + Environment.NewLine;
+                            }
+                            if (VerifyBoolean == true)
+                            {
+                                ClientSessionECDSAPKByte = SessionECDSAKeyPair.PublicKey;
+                                SignedClientSessionECDHPKByte = SodiumPublicKeyAuth.Sign(SessionECDHKeyPair.PublicKey, SessionECDSAKeyPair.PrivateKey);
+                                CreateSharedSecret(ref CreateShareSecretStatus, MySession_ID, SignedClientSessionECDHPKByte, ClientSessionECDSAPKByte);
+                                if (CreateShareSecretStatus == true)
+                                {
+                                    CheckSharedSecret(ref CheckSharedSecretStatus, MySession_ID, ServerECDHPKByte, SessionECDHKeyPair.PrivateKey, SessionECDSAKeyPair.PrivateKey);
+                                }
+                            }
+                            else
+                            {
+                                File.WriteAllText(Application.StartupPath + "\\Error_Data\\Greetings\\FetchHandShakeSessionParameterStatus.txt", "Server's ECDH public key can't be verified with given ECDSA public key");
+                            }
+                            SodiumSecureMemory.MemZero(ServerECDHSPKByteGCHandle.AddrOfPinnedObject(), ServerECDHSPKByte.Length);
+                            SodiumSecureMemory.MemZero(ServerECDSAPKByteGCHandle.AddrOfPinnedObject(), ServerECDSAPKByte.Length);
+                            ServerECDHSPKByteGCHandle.Free();
+                            ServerECDSAPKByteGCHandle.Free();
                         }
-                        else
+                        else 
                         {
-                            File.WriteAllText(Application.StartupPath + "\\Error_Data\\Greetings\\FetchHandShakeSessionParameterStatus.txt", "Server's ECDH public key can't be verified with given ECDSA public key");
+                            MessageBox.Show(MyECDH_ECDSA_Models.ID_Checker_Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        SodiumSecureMemory.MemZero(ServerECDHSPKByteGCHandle.AddrOfPinnedObject(), ServerECDHSPKByte.Length);
-                        SodiumSecureMemory.MemZero(ServerECDSAPKByteGCHandle.AddrOfPinnedObject(), ServerECDSAPKByte.Length);
-                        ServerECDHSPKByteGCHandle.Free();
-                        ServerECDSAPKByteGCHandle.Free();
                     }
                     else
                     {
