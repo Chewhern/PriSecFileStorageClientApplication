@@ -29,17 +29,13 @@
         private void InitializeComponent()
         {
             this.LeftPanel = new System.Windows.Forms.Panel();
-            this.CountryCodeCB = new System.Windows.Forms.ComboBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.VerifyPaymentBTN = new System.Windows.Forms.Button();
             this.DirectoryIDTB = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.PaymentIDTB = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.CreatePaymentBTN = new System.Windows.Forms.Button();
             this.CheckOutPageURLTB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.CheckOutPageIDTB = new System.Windows.Forms.TextBox();
+            this.OrderIDTB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.RightPanel = new System.Windows.Forms.Panel();
             this.DirectoryIDComboBox = new System.Windows.Forms.ComboBox();
@@ -50,18 +46,14 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.MiddlePanel = new System.Windows.Forms.Panel();
-            this.RenewalCountryCodeCB = new System.Windows.Forms.ComboBox();
-            this.label13 = new System.Windows.Forms.Label();
+            this.RenewServerDirectoryIDCB = new System.Windows.Forms.ComboBox();
             this.RenewPaymentBTN = new System.Windows.Forms.Button();
             this.CreateRenewPaymentBTN = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.RenewCheckOutPageURLTB = new System.Windows.Forms.TextBox();
-            this.RenewPaymentIDTB = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.RenewCheckOutPageIDTB = new System.Windows.Forms.TextBox();
-            this.RenewServerDirectoryIDCB = new System.Windows.Forms.ComboBox();
+            this.RenewOrderIDTB = new System.Windows.Forms.TextBox();
             this.LeftPanel.SuspendLayout();
             this.RightPanel.SuspendLayout();
             this.MiddlePanel.SuspendLayout();
@@ -70,17 +62,13 @@
             // LeftPanel
             // 
             this.LeftPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LeftPanel.Controls.Add(this.CountryCodeCB);
-            this.LeftPanel.Controls.Add(this.label12);
             this.LeftPanel.Controls.Add(this.VerifyPaymentBTN);
             this.LeftPanel.Controls.Add(this.DirectoryIDTB);
             this.LeftPanel.Controls.Add(this.label4);
-            this.LeftPanel.Controls.Add(this.PaymentIDTB);
-            this.LeftPanel.Controls.Add(this.label3);
             this.LeftPanel.Controls.Add(this.CreatePaymentBTN);
             this.LeftPanel.Controls.Add(this.CheckOutPageURLTB);
             this.LeftPanel.Controls.Add(this.label2);
-            this.LeftPanel.Controls.Add(this.CheckOutPageIDTB);
+            this.LeftPanel.Controls.Add(this.OrderIDTB);
             this.LeftPanel.Controls.Add(this.label1);
             this.LeftPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.LeftPanel.Location = new System.Drawing.Point(0, 0);
@@ -88,28 +76,9 @@
             this.LeftPanel.Size = new System.Drawing.Size(291, 654);
             this.LeftPanel.TabIndex = 0;
             // 
-            // CountryCodeCB
-            // 
-            this.CountryCodeCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CountryCodeCB.FormattingEnabled = true;
-            this.CountryCodeCB.Location = new System.Drawing.Point(17, 264);
-            this.CountryCodeCB.Name = "CountryCodeCB";
-            this.CountryCodeCB.Size = new System.Drawing.Size(250, 28);
-            this.CountryCodeCB.TabIndex = 11;
-            this.CountryCodeCB.SelectedIndexChanged += new System.EventHandler(this.CountryCodeCB_SelectedIndexChanged);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(17, 241);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(154, 20);
-            this.label12.TabIndex = 10;
-            this.label12.Text = "Choose your country";
-            // 
             // VerifyPaymentBTN
             // 
-            this.VerifyPaymentBTN.Location = new System.Drawing.Point(17, 572);
+            this.VerifyPaymentBTN.Location = new System.Drawing.Point(17, 406);
             this.VerifyPaymentBTN.Name = "VerifyPaymentBTN";
             this.VerifyPaymentBTN.Size = new System.Drawing.Size(250, 61);
             this.VerifyPaymentBTN.TabIndex = 9;
@@ -119,7 +88,7 @@
             // 
             // DirectoryIDTB
             // 
-            this.DirectoryIDTB.Location = new System.Drawing.Point(17, 499);
+            this.DirectoryIDTB.Location = new System.Drawing.Point(17, 333);
             this.DirectoryIDTB.Multiline = true;
             this.DirectoryIDTB.Name = "DirectoryIDTB";
             this.DirectoryIDTB.ReadOnly = true;
@@ -129,33 +98,15 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 476);
+            this.label4.Location = new System.Drawing.Point(17, 310);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(143, 20);
             this.label4.TabIndex = 7;
             this.label4.Text = "Server Directory ID";
             // 
-            // PaymentIDTB
-            // 
-            this.PaymentIDTB.Location = new System.Drawing.Point(17, 406);
-            this.PaymentIDTB.Multiline = true;
-            this.PaymentIDTB.Name = "PaymentIDTB";
-            this.PaymentIDTB.ReadOnly = true;
-            this.PaymentIDTB.Size = new System.Drawing.Size(250, 58);
-            this.PaymentIDTB.TabIndex = 6;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 383);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(130, 20);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "User Payment ID";
-            // 
             // CreatePaymentBTN
             // 
-            this.CreatePaymentBTN.Location = new System.Drawing.Point(17, 309);
+            this.CreatePaymentBTN.Location = new System.Drawing.Point(17, 240);
             this.CreatePaymentBTN.Name = "CreatePaymentBTN";
             this.CreatePaymentBTN.Size = new System.Drawing.Size(250, 52);
             this.CreatePaymentBTN.TabIndex = 4;
@@ -181,23 +132,23 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "CheckOut Page URL";
             // 
-            // CheckOutPageIDTB
+            // OrderIDTB
             // 
-            this.CheckOutPageIDTB.Location = new System.Drawing.Point(17, 37);
-            this.CheckOutPageIDTB.Multiline = true;
-            this.CheckOutPageIDTB.Name = "CheckOutPageIDTB";
-            this.CheckOutPageIDTB.ReadOnly = true;
-            this.CheckOutPageIDTB.Size = new System.Drawing.Size(250, 58);
-            this.CheckOutPageIDTB.TabIndex = 1;
+            this.OrderIDTB.Location = new System.Drawing.Point(17, 37);
+            this.OrderIDTB.Multiline = true;
+            this.OrderIDTB.Name = "OrderIDTB";
+            this.OrderIDTB.ReadOnly = true;
+            this.OrderIDTB.Size = new System.Drawing.Size(250, 58);
+            this.OrderIDTB.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 20);
+            this.label1.Size = new System.Drawing.Size(70, 20);
             this.label1.TabIndex = 0;
-            this.label1.Text = "CheckOut Page ID";
+            this.label1.Text = "Order ID";
             // 
             // RightPanel
             // 
@@ -296,45 +247,31 @@
             // 
             this.MiddlePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.MiddlePanel.Controls.Add(this.RenewServerDirectoryIDCB);
-            this.MiddlePanel.Controls.Add(this.RenewalCountryCodeCB);
-            this.MiddlePanel.Controls.Add(this.label13);
             this.MiddlePanel.Controls.Add(this.RenewPaymentBTN);
             this.MiddlePanel.Controls.Add(this.CreateRenewPaymentBTN);
             this.MiddlePanel.Controls.Add(this.label7);
             this.MiddlePanel.Controls.Add(this.RenewCheckOutPageURLTB);
-            this.MiddlePanel.Controls.Add(this.RenewPaymentIDTB);
-            this.MiddlePanel.Controls.Add(this.label8);
             this.MiddlePanel.Controls.Add(this.label6);
             this.MiddlePanel.Controls.Add(this.label5);
-            this.MiddlePanel.Controls.Add(this.RenewCheckOutPageIDTB);
+            this.MiddlePanel.Controls.Add(this.RenewOrderIDTB);
             this.MiddlePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MiddlePanel.Location = new System.Drawing.Point(291, 0);
             this.MiddlePanel.Name = "MiddlePanel";
             this.MiddlePanel.Size = new System.Drawing.Size(363, 654);
             this.MiddlePanel.TabIndex = 2;
             // 
-            // RenewalCountryCodeCB
+            // RenewServerDirectoryIDCB
             // 
-            this.RenewalCountryCodeCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.RenewalCountryCodeCB.FormattingEnabled = true;
-            this.RenewalCountryCodeCB.Location = new System.Drawing.Point(27, 264);
-            this.RenewalCountryCodeCB.Name = "RenewalCountryCodeCB";
-            this.RenewalCountryCodeCB.Size = new System.Drawing.Size(250, 28);
-            this.RenewalCountryCodeCB.TabIndex = 13;
-            this.RenewalCountryCodeCB.SelectedIndexChanged += new System.EventHandler(this.RenewalCountryCodeCB_SelectedIndexChanged);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(27, 241);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(154, 20);
-            this.label13.TabIndex = 12;
-            this.label13.Text = "Choose your country";
+            this.RenewServerDirectoryIDCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RenewServerDirectoryIDCB.FormattingEnabled = true;
+            this.RenewServerDirectoryIDCB.Location = new System.Drawing.Point(27, 333);
+            this.RenewServerDirectoryIDCB.Name = "RenewServerDirectoryIDCB";
+            this.RenewServerDirectoryIDCB.Size = new System.Drawing.Size(250, 28);
+            this.RenewServerDirectoryIDCB.TabIndex = 15;
             // 
             // RenewPaymentBTN
             // 
-            this.RenewPaymentBTN.Location = new System.Drawing.Point(27, 572);
+            this.RenewPaymentBTN.Location = new System.Drawing.Point(27, 406);
             this.RenewPaymentBTN.Name = "RenewPaymentBTN";
             this.RenewPaymentBTN.Size = new System.Drawing.Size(250, 61);
             this.RenewPaymentBTN.TabIndex = 10;
@@ -344,7 +281,7 @@
             // 
             // CreateRenewPaymentBTN
             // 
-            this.CreateRenewPaymentBTN.Location = new System.Drawing.Point(27, 309);
+            this.CreateRenewPaymentBTN.Location = new System.Drawing.Point(27, 240);
             this.CreateRenewPaymentBTN.Name = "CreateRenewPaymentBTN";
             this.CreateRenewPaymentBTN.Size = new System.Drawing.Size(250, 52);
             this.CreateRenewPaymentBTN.TabIndex = 14;
@@ -355,7 +292,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(27, 476);
+            this.label7.Location = new System.Drawing.Point(27, 310);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(197, 20);
             this.label7.TabIndex = 12;
@@ -370,31 +307,14 @@
             this.RenewCheckOutPageURLTB.Size = new System.Drawing.Size(250, 82);
             this.RenewCheckOutPageURLTB.TabIndex = 13;
             // 
-            // RenewPaymentIDTB
-            // 
-            this.RenewPaymentIDTB.Location = new System.Drawing.Point(27, 406);
-            this.RenewPaymentIDTB.Multiline = true;
-            this.RenewPaymentIDTB.Name = "RenewPaymentIDTB";
-            this.RenewPaymentIDTB.Size = new System.Drawing.Size(250, 58);
-            this.RenewPaymentIDTB.TabIndex = 11;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(27, 383);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(184, 20);
-            this.label8.TabIndex = 10;
-            this.label8.Text = "Renew User Payment ID";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(23, 13);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(196, 20);
+            this.label6.Size = new System.Drawing.Size(124, 20);
             this.label6.TabIndex = 10;
-            this.label6.Text = "Renew CheckOut Page ID";
+            this.label6.Text = "Renew Order ID";
             // 
             // label5
             // 
@@ -405,23 +325,14 @@
             this.label5.TabIndex = 12;
             this.label5.Text = "Renew CheckOut Page URL";
             // 
-            // RenewCheckOutPageIDTB
+            // RenewOrderIDTB
             // 
-            this.RenewCheckOutPageIDTB.Location = new System.Drawing.Point(27, 37);
-            this.RenewCheckOutPageIDTB.Multiline = true;
-            this.RenewCheckOutPageIDTB.Name = "RenewCheckOutPageIDTB";
-            this.RenewCheckOutPageIDTB.ReadOnly = true;
-            this.RenewCheckOutPageIDTB.Size = new System.Drawing.Size(250, 58);
-            this.RenewCheckOutPageIDTB.TabIndex = 11;
-            // 
-            // RenewServerDirectoryIDCB
-            // 
-            this.RenewServerDirectoryIDCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.RenewServerDirectoryIDCB.FormattingEnabled = true;
-            this.RenewServerDirectoryIDCB.Location = new System.Drawing.Point(27, 499);
-            this.RenewServerDirectoryIDCB.Name = "RenewServerDirectoryIDCB";
-            this.RenewServerDirectoryIDCB.Size = new System.Drawing.Size(250, 28);
-            this.RenewServerDirectoryIDCB.TabIndex = 15;
+            this.RenewOrderIDTB.Location = new System.Drawing.Point(27, 37);
+            this.RenewOrderIDTB.Multiline = true;
+            this.RenewOrderIDTB.Name = "RenewOrderIDTB";
+            this.RenewOrderIDTB.ReadOnly = true;
+            this.RenewOrderIDTB.Size = new System.Drawing.Size(250, 58);
+            this.RenewOrderIDTB.TabIndex = 11;
             // 
             // ActionChooser
             // 
@@ -453,12 +364,10 @@
         private System.Windows.Forms.Button VerifyPaymentBTN;
         private System.Windows.Forms.TextBox DirectoryIDTB;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox PaymentIDTB;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button CreatePaymentBTN;
         private System.Windows.Forms.TextBox CheckOutPageURLTB;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox CheckOutPageIDTB;
+        private System.Windows.Forms.TextBox OrderIDTB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel RightPanel;
         private System.Windows.Forms.ComboBox ActionCB;
@@ -471,16 +380,10 @@
         private System.Windows.Forms.Button CreateRenewPaymentBTN;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox RenewCheckOutPageURLTB;
-        private System.Windows.Forms.TextBox RenewPaymentIDTB;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox RenewCheckOutPageIDTB;
+        private System.Windows.Forms.TextBox RenewOrderIDTB;
         private System.Windows.Forms.Button GoBTN;
-        private System.Windows.Forms.ComboBox CountryCodeCB;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ComboBox RenewalCountryCodeCB;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox DirectoryIDComboBox;
         private System.Windows.Forms.ComboBox RenewServerDirectoryIDCB;
     }

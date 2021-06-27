@@ -11,6 +11,5 @@ namespace PriSecFileStorageClient
 
         public String FolderID { get; set; }
 
-        public String PaymentID { get; set; }
     }
 }

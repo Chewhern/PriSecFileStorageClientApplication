@@ -42,26 +42,16 @@ namespace PriSecFileStorageClient
         {
             if(UserIDTempStorage.UserID!=null && UserIDTempStorage.UserID.CompareTo("") != 0) 
             {
-                String CheckOutPageID = "";
+                String OrderID = "";
                 String CheckOutPageUrl = "";
-                String CountryCode = "";
-                if (CountryCodeCB.SelectedIndex != -1)
+                if (GetPaymentCheckOutPage(ref OrderID, ref CheckOutPageUrl) == true)
                 {
-                    CountryCode = CountryCodeCB.Text;
-                    CountryCode = CountryCode.Substring(CountryCode.Length - 2, 2);
-                    if (GetPaymentCheckOutPageID(CountryCode, ref CheckOutPageID, ref CheckOutPageUrl) == true)
-                    {
-                        CheckOutPageIDTB.Text = CheckOutPageID;
-                        CheckOutPageURLTB.Text = CheckOutPageUrl;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to get check out page from server", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    OrderIDTB.Text = OrderID;
+                    CheckOutPageURLTB.Text = CheckOutPageUrl;
                 }
                 else
                 {
-                    MessageBox.Show("Please choose a country code", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to get check out page from server", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else 
@@ -72,17 +62,15 @@ namespace PriSecFileStorageClient
 
         private void VerifyPaymentBTN_Click(object sender, EventArgs e)
         {
-            if ((CheckOutPageIDTB.Text != null && CheckOutPageIDTB.Text.CompareTo("") != 0) == true && (CheckOutPageURLTB.Text != null && CheckOutPageURLTB.Text.CompareTo("") != 0) == true)
+            if ((OrderIDTB.Text != null && OrderIDTB.Text.CompareTo("") != 0) == true && (CheckOutPageURLTB.Text != null && CheckOutPageURLTB.Text.CompareTo("") != 0) == true)
             {
-                String CheckOutPageID = CheckOutPageIDTB.Text;
+                String OrderID = OrderIDTB.Text;
                 String ServerDirectoryID = "";
-                String UserPaymentID = "";
-                if(VerifyPayment(CheckOutPageID,ref ServerDirectoryID,ref UserPaymentID) == true) 
+                if(VerifyPayment(OrderID,ref ServerDirectoryID) == true) 
                 {
-                    PaymentIDTB.Text = UserPaymentID;
                     DirectoryIDTB.Text = ServerDirectoryID;
                     ReloadDirectoryIDArray();
-                    MessageBox.Show("You must remember the payment ID as it's required for renewal, as for Directory ID, as long as your folder that stores the program's data still available, you don't need to remember it.", "Crucial Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("For support, please do contact merchant through his Session messaging application ID and make sure that you have confirmed shipment on Paypal buyer side...", "Crucial Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else 
                 {
@@ -99,26 +87,16 @@ namespace PriSecFileStorageClient
         {
             if (UserIDTempStorage.UserID != null && UserIDTempStorage.UserID.CompareTo("") != 0)
             {
-                String CheckOutPageID = "";
+                String OrderID = "";
                 String CheckOutPageUrl = "";
-                String CountryCode = "";
-                if (RenewalCountryCodeCB.SelectedIndex != -1) 
+                if (GetPaymentCheckOutPage(ref OrderID, ref CheckOutPageUrl) == true)
                 {
-                    CountryCode = RenewalCountryCodeCB.Text;
-                    CountryCode = CountryCode.Substring(CountryCode.Length - 2, 2);
-                    if (GetPaymentCheckOutPageID(CountryCode, ref CheckOutPageID, ref CheckOutPageUrl) == true)
-                    {
-                        RenewCheckOutPageIDTB.Text = CheckOutPageID;
-                        RenewCheckOutPageURLTB.Text = CheckOutPageUrl;
-                    }
-                    else 
-                    {
-                        MessageBox.Show("Failed to get check out page from server","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                    }
+                    RenewOrderIDTB.Text = OrderID;
+                    RenewCheckOutPageURLTB.Text = CheckOutPageUrl;
                 }
-                else 
+                else
                 {
-                    MessageBox.Show("Please choose a country code", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to get check out page from server", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -131,8 +109,7 @@ namespace PriSecFileStorageClient
         {
             String Base64ServerChallenge = "";
             String ServerDirectoryID = "";
-            String UserPaymentID = "";
-            String CheckOutPageID = "";
+            String OrderID = "";
             Byte[] Base64ServerChallengeByte = new Byte[] { };
             Boolean ConvertFromBase64String = true;
             RequestChallenge(ref Base64ServerChallenge);
@@ -148,14 +125,13 @@ namespace PriSecFileStorageClient
                 }
                 if (ConvertFromBase64String == true) 
                 {
-                    if (RenewCheckOutPageIDTB.Text!=null && RenewCheckOutPageIDTB.Text.CompareTo("")!=0 && RenewServerDirectoryIDCB.Text!=null && RenewServerDirectoryIDCB.Text.CompareTo("")!=0 && RenewCheckOutPageIDTB.Text!=null && RenewCheckOutPageIDTB.Text.CompareTo("")!=0) 
+                    if (RenewOrderIDTB.Text!=null && RenewOrderIDTB.Text.CompareTo("")!=0 && RenewServerDirectoryIDCB.Text!=null && RenewServerDirectoryIDCB.Text.CompareTo("")!=0 && RenewOrderIDTB.Text!=null && RenewOrderIDTB.Text.CompareTo("")!=0) 
                     {
-                        CheckOutPageID = RenewCheckOutPageIDTB.Text;
+                        OrderID = RenewOrderIDTB.Text;
                         ServerDirectoryID = RenewServerDirectoryIDCB.Text;
-                        UserPaymentID = RenewPaymentIDTB.Text;
                         if (Directory.Exists(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + ServerDirectoryID) == true) 
                         {
-                            if (RenewPayment(CheckOutPageID, UserPaymentID, ServerDirectoryID, Base64ServerChallengeByte) == true) 
+                            if (RenewPayment(OrderID, ServerDirectoryID, Base64ServerChallengeByte) == true) 
                             {
                                 MessageBox.Show("Successfully renewed","Succeed",MessageBoxButtons.OK,MessageBoxIcon.Information);
                             }
@@ -235,147 +211,71 @@ namespace PriSecFileStorageClient
             {
                 ReloadDirectoryIDArray();
             }
-            String[] ListOfCountries = File.ReadAllLines(Application.StartupPath + "\\Country_Codes\\Country_Two_Letter_Codes.txt");
-            RenewalCountryCodeCB.Items.AddRange(ListOfCountries);
-            CountryCodeCB.Items.AddRange(ListOfCountries);
         }
 
-        private void CountryCodeCB_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CountryCodeCB.SelectedIndex != -1) 
-            {
-                MessageBox.Show(CountryCodeCB.Text.Substring(0,CountryCodeCB.Text.Length-4));
-            }
-        }
-
-        private void RenewalCountryCodeCB_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (RenewalCountryCodeCB.SelectedIndex != -1)
-            {
-                MessageBox.Show(RenewalCountryCodeCB.Text.Substring(0, RenewalCountryCodeCB.Text.Length - 4));
-            }
-        }
-
-        public Boolean GetPaymentCheckOutPageID(String CountryCode,ref String CheckOutPageID, ref String CheckOutPageUrl) 
+        public Boolean GetPaymentCheckOutPage(ref String OrderID, ref String CheckOutPageUrl) 
         {
             CheckOutPageHolderModel PageHolder = new CheckOutPageHolderModel();
-            Byte[] ClientECDSASK = new Byte[] { };
-            Byte[] SharedSecret = new Byte[] { };
-            Byte[] CountryCodeByte = new Byte[] { };
-            Byte[] NonceByte = new Byte[] { };
-            Byte[] CipheredCountryCodeByte = new Byte[] { };
-            Byte[] CombinedCipheredCountryCodeByte = new Byte[] { };
-            Byte[] ETLSSignedCombinedCipheredCountryCodeByte = new Byte[] { };
             Boolean CheckServerBoolean = true;
-            GCHandle MyGeneralGCHandle = new GCHandle();
-            String ETLSSessionID = "";
-            ETLSSessionID = File.ReadAllText(Application.StartupPath + "\\Temp_Session\\" + "SessionID.txt");
-            if(CountryCode!=null && CountryCode.CompareTo("") != 0) 
+            using (var client = new HttpClient())
             {
-                if (ETLSSessionID != null && ETLSSessionID.CompareTo("") != 0)
+                client.BaseAddress = new Uri("https://{API URL}");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = client.GetAsync("CreateReceivePayment/");
+                try
                 {
-                    ClientECDSASK = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionID + "\\" + "ECDSASK.txt");
-                    SharedSecret = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionID + "\\" + "SharedSecret.txt");
-                    CountryCodeByte = Encoding.UTF8.GetBytes(CountryCode);
-                    NonceByte = SodiumSecretBox.GenerateNonce();
-                    CipheredCountryCodeByte = SodiumSecretBox.Create(CountryCodeByte, NonceByte, SharedSecret);
-                    CombinedCipheredCountryCodeByte = NonceByte.Concat(CipheredCountryCodeByte).ToArray();
-                    ETLSSignedCombinedCipheredCountryCodeByte = SodiumPublicKeyAuth.Sign(CombinedCipheredCountryCodeByte, ClientECDSASK);
-                    using (var client = new HttpClient())
+                    response.Wait();
+                }
+                catch
+                {
+                    CheckServerBoolean = false;
+                }
+                if (CheckServerBoolean == true)
+                {
+                    var result = response.Result;
+                    if (result.IsSuccessStatusCode)
                     {
-                        client.BaseAddress = new Uri("https://{API URL}");
-                        client.DefaultRequestHeaders.Accept.Clear();
-                        client.DefaultRequestHeaders.Accept.Add(
-                            new MediaTypeWithQualityHeaderValue("application/json"));
-                        var response = client.GetAsync("CreateReceivePayment/CreatePaymentRequest?ClientPathID=" + ETLSSessionID + "&CipheredSignedCountryCode=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredCountryCodeByte)));
-                        try
-                        {
-                            response.Wait();
-                        }
-                        catch
-                        {
-                            CheckServerBoolean = false;
-                        }
-                        if (CheckServerBoolean == true)
-                        {
-                            var result = response.Result;
-                            if (result.IsSuccessStatusCode)
-                            {
-                                var readTask = result.Content.ReadAsStringAsync();
-                                readTask.Wait();
+                        var readTask = result.Content.ReadAsStringAsync();
+                        readTask.Wait();
 
-                                var Result = readTask.Result;
-                                if (Result != null && Result.CompareTo("")!=0 && Result.Contains("Error")==false) 
-                                {
-                                    PageHolder = JsonConvert.DeserializeObject<CheckOutPageHolderModel>(Result);
-                                    CheckOutPageID = PageHolder.CheckOutPageID;
-                                    CheckOutPageUrl = PageHolder.CheckOutPageUrl;
-                                    MyGeneralGCHandle = GCHandle.Alloc(ClientECDSASK, GCHandleType.Pinned);
-                                    SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), ClientECDSASK.Length);
-                                    MyGeneralGCHandle.Free();
-                                    MyGeneralGCHandle = GCHandle.Alloc(SharedSecret, GCHandleType.Pinned);
-                                    SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), SharedSecret.Length);
-                                    MyGeneralGCHandle.Free();
-                                    return true;
-                                }
-                                else 
-                                {
-                                    PageHolder = JsonConvert.DeserializeObject<CheckOutPageHolderModel>(Result);
-                                    MessageBox.Show(PageHolder.Status, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    MyGeneralGCHandle = GCHandle.Alloc(ClientECDSASK, GCHandleType.Pinned);
-                                    SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), ClientECDSASK.Length);
-                                    MyGeneralGCHandle.Free();
-                                    MyGeneralGCHandle = GCHandle.Alloc(SharedSecret, GCHandleType.Pinned);
-                                    SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), SharedSecret.Length);
-                                    MyGeneralGCHandle.Free();
-                                    return false;
-                                }
-                            }
-                            else 
-                            {
-                                MyGeneralGCHandle = GCHandle.Alloc(ClientECDSASK, GCHandleType.Pinned);
-                                SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), ClientECDSASK.Length);
-                                MyGeneralGCHandle.Free();
-                                MyGeneralGCHandle = GCHandle.Alloc(SharedSecret, GCHandleType.Pinned);
-                                SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), SharedSecret.Length);
-                                MyGeneralGCHandle.Free();
-                                MessageBox.Show("Something went wrong with fetching values from server ...", "Request CheckOut Page Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return false;
-                            }
+                        var Result = readTask.Result;
+                        if (Result != null && Result.CompareTo("")!=0 && Result.Contains("Error")==false) 
+                        {
+                            PageHolder = JsonConvert.DeserializeObject<CheckOutPageHolderModel>(Result);
+                            OrderID = PageHolder.PayPalOrderID;
+                            CheckOutPageUrl = PageHolder.CheckOutPageUrl;
+                            return true;
                         }
                         else 
                         {
-                            MyGeneralGCHandle = GCHandle.Alloc(ClientECDSASK, GCHandleType.Pinned);
-                            SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), ClientECDSASK.Length);
-                            MyGeneralGCHandle.Free();
-                            MyGeneralGCHandle = GCHandle.Alloc(SharedSecret, GCHandleType.Pinned);
-                            SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), SharedSecret.Length);
-                            MyGeneralGCHandle.Free();
-                            MessageBox.Show("Server is having some problems or offline...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return false;
                         }
                     }
+                    else 
+                    {
+                        MessageBox.Show("Something went wrong with fetching values from server ...", "Request CheckOut Page Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
                 }
-                else
+                else 
                 {
+                    MessageBox.Show("Server is having some problems or offline...", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
-            else 
-            {
-                return false;
-            }
         }
 
-        public Boolean VerifyPayment(String CheckOutPageID, ref String DirectoryID, ref String PaymentID) 
+        public Boolean VerifyPayment(String OrderID, ref String DirectoryID) 
         {
             Byte[] ClientECDSASK = new Byte[] { };
             Byte[] SharedSecret = new Byte[] { };
-            Byte[] CheckOutPageIDByte = new Byte[] { };
+            Byte[] OrderIDByte = new Byte[] { };
             Byte[] NonceByte = new Byte[] { };
-            Byte[] CipheredCheckOutPageIDByte = new Byte[] { };
-            Byte[] CombinedCipheredCheckOutPageIDByte = new Byte[] { };
-            Byte[] ETLSSignedCombinedCipheredCheckOutPageIDByte = new Byte[] { };
+            Byte[] CipheredOrderIDByte = new Byte[] { };
+            Byte[] CombinedCipheredOrderIDByte = new Byte[] { };
+            Byte[] ETLSSignedCombinedCipheredOrderIDByte = new Byte[] { };
             Byte[] CipheredED25519PK = new Byte[] { };
             Byte[] CombinedCipheredED25519PK = new Byte[] { };
             Byte[] ETLSSignedCombinedCipheredED25519PK = new Byte[] { };
@@ -385,17 +285,17 @@ namespace PriSecFileStorageClient
             FileCreationModel DirectoryHolder = new FileCreationModel();
             String ETLSSessionID = "";
             ETLSSessionID = File.ReadAllText(Application.StartupPath + "\\Temp_Session\\" + "SessionID.txt");
-            if (CheckOutPageID != null && CheckOutPageID.CompareTo("") != 0)
+            if (OrderID != null && OrderID.CompareTo("") != 0)
             {
                 if (ETLSSessionID != null && ETLSSessionID.CompareTo("") != 0)
                 {
                     ClientECDSASK = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionID + "\\" + "ECDSASK.txt");
                     SharedSecret = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionID + "\\" + "SharedSecret.txt");
-                    CheckOutPageIDByte = Encoding.UTF8.GetBytes(CheckOutPageID);
+                    OrderIDByte = Encoding.UTF8.GetBytes(OrderID);
                     NonceByte = SodiumSecretBox.GenerateNonce();
-                    CipheredCheckOutPageIDByte = SodiumSecretBox.Create(CheckOutPageIDByte, NonceByte, SharedSecret);
-                    CombinedCipheredCheckOutPageIDByte = NonceByte.Concat(CipheredCheckOutPageIDByte).ToArray();
-                    ETLSSignedCombinedCipheredCheckOutPageIDByte = SodiumPublicKeyAuth.Sign(CombinedCipheredCheckOutPageIDByte, ClientECDSASK);
+                    CipheredOrderIDByte = SodiumSecretBox.Create(OrderIDByte, NonceByte, SharedSecret);
+                    CombinedCipheredOrderIDByte = NonceByte.Concat(CipheredOrderIDByte).ToArray();
+                    ETLSSignedCombinedCipheredOrderIDByte = SodiumPublicKeyAuth.Sign(CombinedCipheredOrderIDByte, ClientECDSASK);
                     ClientECDSASK= File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionID + "\\" + "ECDSASK.txt");
                     NonceByte = new Byte[] { };
                     NonceByte = SodiumSecretBox.GenerateNonce();
@@ -404,11 +304,11 @@ namespace PriSecFileStorageClient
                     ETLSSignedCombinedCipheredED25519PK = SodiumPublicKeyAuth.Sign(CombinedCipheredED25519PK, ClientECDSASK);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{API URL}");
+                        client.BaseAddress = new Uri("https://{{API URL}}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
-                        var response = client.GetAsync("CreateReceivePayment/CheckPayment?ClientPathID=" + ETLSSessionID + "&CipheredSignedCheckOutPageID=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredCheckOutPageIDByte)) + "&CipheredSignedED25519PK=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredED25519PK)));
+                        var response = client.GetAsync("CreateReceivePayment/CheckPayment?ClientPathID=" + ETLSSessionID + "&CipheredSignedOrderID=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredOrderIDByte)) + "&CipheredSignedED25519PK=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredED25519PK)));
                         try
                         {
                             response.Wait();
@@ -437,7 +337,6 @@ namespace PriSecFileStorageClient
                                     if(DirectoryHolder.Status!=null && DirectoryHolder.Status.CompareTo("") != 0) 
                                     {
                                         DirectoryID = DirectoryHolder.FolderID;
-                                        PaymentID = DirectoryHolder.PaymentID;
                                         if (Directory.Exists(Application.StartupPath + "\\Application_Data\\" + "\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data") == false)
                                         {
                                             Directory.CreateDirectory(Application.StartupPath + "\\Application_Data\\" + "\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data");
@@ -758,18 +657,14 @@ namespace PriSecFileStorageClient
             }
         }
 
-        public Boolean RenewPayment(String CheckOutPageID,String PaymentID,String DirectoryID,Byte[] Challenge) 
+        public Boolean RenewPayment(String OrderID,String DirectoryID,Byte[] Challenge) 
         {
-            if(CheckOutPageID!=null && CheckOutPageID.CompareTo("")!=0 && PaymentID!=null && PaymentID.CompareTo("")!=0 && DirectoryID!=null && DirectoryID.CompareTo("")!=0 && Challenge.Length != 0) 
+            if(OrderID!=null && OrderID.CompareTo("")!=0 && DirectoryID!=null && DirectoryID.CompareTo("")!=0 && Challenge.Length != 0) 
             {
-                Byte[] CheckOutPageIDByte = new Byte[] { };
-                Byte[] CipheredCheckOutPageIDByte = new Byte[] { };
-                Byte[] CombinedCipheredCheckOutPageIDByte = new Byte[] { };
-                Byte[] ETLSSignedCombinedCipheredCheckOutPageIDByte = new Byte[] { };
-                Byte[] PaymentIDByte = new Byte[] { };
-                Byte[] CipheredPaymentIDByte = new Byte[] { };
-                Byte[] CombinedCipheredPaymentIDByte = new Byte[] { };
-                Byte[] ETLSSignedCombinedCipheredPaymentIDByte = new Byte[] { };
+                Byte[] OrderIDByte = new Byte[] { };
+                Byte[] CipheredOrderIDByte = new Byte[] { };
+                Byte[] CombinedCipheredOrderIDByte = new Byte[] { };
+                Byte[] ETLSSignedCombinedCipheredOrderIDByte = new Byte[] { };
                 Byte[] DirectoryIDByte = new Byte[] { };
                 Byte[] CipheredDirectoryIDByte = new Byte[] { };
                 Byte[] CombinedCipheredDirectoryIDByte = new Byte[] { };
@@ -788,8 +683,7 @@ namespace PriSecFileStorageClient
                 GCHandle MyGeneralGCHandle = new GCHandle();
                 Boolean ServerOnlineChecker = true;
                 RevampedKeyPair MyKeyPair = SodiumPublicKeyAuth.GenerateRevampedKeyPair();
-                CheckOutPageIDByte = Encoding.UTF8.GetBytes(CheckOutPageID);
-                PaymentIDByte = Encoding.UTF8.GetBytes(PaymentID);
+                OrderIDByte = Encoding.UTF8.GetBytes(OrderID);
                 DirectoryIDByte = Encoding.UTF8.GetBytes(DirectoryID);
                 if (ETLSSessionIDStorage.ETLSID.CompareTo("") != 0 && ETLSSessionIDStorage.ETLSID != null)
                 {
@@ -802,21 +696,15 @@ namespace PriSecFileStorageClient
                         ETLSSignedUserIDByte = SodiumPublicKeyAuth.Sign(UserIDByte, ClientECDSASK);
                         NonceByte = SodiumSecretBox.GenerateNonce();
                         ClientECDSASK = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionIDStorage.ETLSID + "\\" + "ECDSASK.txt");
-                        CipheredCheckOutPageIDByte = SodiumSecretBox.Create(CheckOutPageIDByte, NonceByte, SharedSecret);
-                        CombinedCipheredCheckOutPageIDByte = NonceByte.Concat(CipheredCheckOutPageIDByte).ToArray();
-                        ETLSSignedCombinedCipheredCheckOutPageIDByte = SodiumPublicKeyAuth.Sign(CombinedCipheredCheckOutPageIDByte, ClientECDSASK);
+                        CipheredOrderIDByte = SodiumSecretBox.Create(OrderIDByte, NonceByte, SharedSecret);
+                        CombinedCipheredOrderIDByte = NonceByte.Concat(CipheredOrderIDByte).ToArray();
+                        ETLSSignedCombinedCipheredOrderIDByte = SodiumPublicKeyAuth.Sign(CombinedCipheredOrderIDByte, ClientECDSASK);
                         NonceByte = new Byte[] { };
                         NonceByte = SodiumSecretBox.GenerateNonce();
                         ClientECDSASK = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionIDStorage.ETLSID + "\\" + "ECDSASK.txt");
                         CipheredDirectoryIDByte = SodiumSecretBox.Create(DirectoryIDByte, NonceByte, SharedSecret);
                         CombinedCipheredDirectoryIDByte = NonceByte.Concat(CipheredDirectoryIDByte).ToArray();
                         ETLSSignedCombinedCipheredDirectoryIDByte = SodiumPublicKeyAuth.Sign(CombinedCipheredDirectoryIDByte, ClientECDSASK);
-                        NonceByte = new Byte[] { };
-                        NonceByte = SodiumSecretBox.GenerateNonce();
-                        ClientECDSASK = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionIDStorage.ETLSID + "\\" + "ECDSASK.txt");
-                        CipheredPaymentIDByte = SodiumSecretBox.Create(PaymentIDByte, NonceByte, SharedSecret);
-                        CombinedCipheredPaymentIDByte = NonceByte.Concat(CipheredPaymentIDByte).ToArray();
-                        ETLSSignedCombinedCipheredPaymentIDByte = SodiumPublicKeyAuth.Sign(CombinedCipheredPaymentIDByte, ClientECDSASK);
                         ClientECDSASK = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionIDStorage.ETLSID + "\\" + "ECDSASK.txt");
                         UserSignedRandomChallenge = SodiumPublicKeyAuth.Sign(Challenge, UserECDSASK);
                         ETLSSignedUserSignedRandomChallenge = SodiumPublicKeyAuth.Sign(UserSignedRandomChallenge, ClientECDSASK);
@@ -832,7 +720,7 @@ namespace PriSecFileStorageClient
                             client.DefaultRequestHeaders.Accept.Clear();
                             client.DefaultRequestHeaders.Accept.Add(
                                 new MediaTypeWithQualityHeaderValue("application/json"));
-                            var response = client.GetAsync("CreateReceivePayment/RenewPayment?ClientPathID=" + ETLSSessionIDStorage.ETLSID + "&SignedUserID=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedUserIDByte))  +"&CipheredSignedCheckOutPageID=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredCheckOutPageIDByte)) + "&CipheredSignedDirectoryID=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredDirectoryIDByte)) + "&CipheredSignedPaymentID="+ HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredPaymentIDByte)) + "&SignedSignedRandomChallenge=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedUserSignedRandomChallenge)) + "&CipheredSignedED25519PK=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredNewDirectoryED25519PK)));
+                            var response = client.GetAsync("CreateReceivePayment/RenewPayment?ClientPathID=" + ETLSSessionIDStorage.ETLSID + "&SignedUserID=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedUserIDByte))  +"&CipheredSignedOrderID=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredOrderIDByte)) + "&CipheredSignedDirectoryID=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredDirectoryIDByte)) + "&SignedSignedRandomChallenge=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedUserSignedRandomChallenge)) + "&CipheredSignedED25519PK=" + HttpUtility.UrlEncode(Convert.ToBase64String(ETLSSignedCombinedCipheredNewDirectoryED25519PK)));
                             try
                             {
                                 response.Wait();
@@ -915,7 +803,6 @@ namespace PriSecFileStorageClient
                 return false;
             }
         }
-
 
         public void ReloadDirectoryIDArray()
         {

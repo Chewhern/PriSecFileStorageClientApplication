@@ -44,13 +44,19 @@
             this.label5 = new System.Windows.Forms.Label();
             this.MyBackGroundWorker = new System.ComponentModel.BackgroundWorker();
             this.UploadBackGroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.SymmetricEncryptionAlgorithmGB = new System.Windows.Forms.GroupBox();
+            this.DefaultRB = new System.Windows.Forms.RadioButton();
+            this.XChaCha20Poly1305RB = new System.Windows.Forms.RadioButton();
+            this.AES256GCMRB = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.SymmetricEncryptionAlgorithmGB.SuspendLayout();
             this.SuspendLayout();
             // 
             // ChooseFileBTN
             // 
             this.ChooseFileBTN.Location = new System.Drawing.Point(17, 13);
             this.ChooseFileBTN.Name = "ChooseFileBTN";
-            this.ChooseFileBTN.Size = new System.Drawing.Size(210, 47);
+            this.ChooseFileBTN.Size = new System.Drawing.Size(330, 47);
             this.ChooseFileBTN.TabIndex = 2;
             this.ChooseFileBTN.Text = "Choose File";
             this.ChooseFileBTN.UseVisualStyleBackColor = true;
@@ -76,7 +82,7 @@
             this.FileNameWithPathTB.Multiline = true;
             this.FileNameWithPathTB.Name = "FileNameWithPathTB";
             this.FileNameWithPathTB.ReadOnly = true;
-            this.FileNameWithPathTB.Size = new System.Drawing.Size(206, 74);
+            this.FileNameWithPathTB.Size = new System.Drawing.Size(330, 74);
             this.FileNameWithPathTB.TabIndex = 4;
             // 
             // label3
@@ -94,14 +100,14 @@
             this.FileSizeTB.Multiline = true;
             this.FileSizeTB.Name = "FileSizeTB";
             this.FileSizeTB.ReadOnly = true;
-            this.FileSizeTB.Size = new System.Drawing.Size(202, 78);
+            this.FileSizeTB.Size = new System.Drawing.Size(330, 78);
             this.FileSizeTB.TabIndex = 6;
             // 
             // EncryptBTN
             // 
-            this.EncryptBTN.Location = new System.Drawing.Point(17, 307);
+            this.EncryptBTN.Location = new System.Drawing.Point(17, 492);
             this.EncryptBTN.Name = "EncryptBTN";
-            this.EncryptBTN.Size = new System.Drawing.Size(202, 54);
+            this.EncryptBTN.Size = new System.Drawing.Size(330, 54);
             this.EncryptBTN.TabIndex = 7;
             this.EncryptBTN.Text = "Encrypt";
             this.EncryptBTN.UseVisualStyleBackColor = true;
@@ -110,7 +116,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(274, 13);
+            this.label4.Location = new System.Drawing.Point(440, 17);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(151, 20);
             this.label4.TabIndex = 8;
@@ -118,7 +124,7 @@
             // 
             // EncryptionProgressBar
             // 
-            this.EncryptionProgressBar.Location = new System.Drawing.Point(278, 37);
+            this.EncryptionProgressBar.Location = new System.Drawing.Point(444, 41);
             this.EncryptionProgressBar.Name = "EncryptionProgressBar";
             this.EncryptionProgressBar.Size = new System.Drawing.Size(178, 35);
             this.EncryptionProgressBar.TabIndex = 9;
@@ -126,7 +132,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(278, 84);
+            this.label6.Location = new System.Drawing.Point(444, 88);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(145, 20);
             this.label6.TabIndex = 12;
@@ -134,7 +140,7 @@
             // 
             // RandomFileNameTB
             // 
-            this.RandomFileNameTB.Location = new System.Drawing.Point(278, 107);
+            this.RandomFileNameTB.Location = new System.Drawing.Point(444, 111);
             this.RandomFileNameTB.Multiline = true;
             this.RandomFileNameTB.Name = "RandomFileNameTB";
             this.RandomFileNameTB.ReadOnly = true;
@@ -143,7 +149,7 @@
             // 
             // UploadServerBTN
             // 
-            this.UploadServerBTN.Location = new System.Drawing.Point(278, 212);
+            this.UploadServerBTN.Location = new System.Drawing.Point(444, 216);
             this.UploadServerBTN.Name = "UploadServerBTN";
             this.UploadServerBTN.Size = new System.Drawing.Size(178, 57);
             this.UploadServerBTN.TabIndex = 14;
@@ -153,7 +159,7 @@
             // 
             // UploadProgressBar
             // 
-            this.UploadProgressBar.Location = new System.Drawing.Point(274, 313);
+            this.UploadProgressBar.Location = new System.Drawing.Point(444, 317);
             this.UploadProgressBar.Name = "UploadProgressBar";
             this.UploadProgressBar.Size = new System.Drawing.Size(178, 35);
             this.UploadProgressBar.TabIndex = 15;
@@ -161,17 +167,72 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(274, 287);
+            this.label5.Location = new System.Drawing.Point(440, 291);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(156, 20);
             this.label5.TabIndex = 16;
             this.label5.Text = "Upload File Progress";
             // 
+            // SymmetricEncryptionAlgorithmGB
+            // 
+            this.SymmetricEncryptionAlgorithmGB.Controls.Add(this.AES256GCMRB);
+            this.SymmetricEncryptionAlgorithmGB.Controls.Add(this.XChaCha20Poly1305RB);
+            this.SymmetricEncryptionAlgorithmGB.Controls.Add(this.DefaultRB);
+            this.SymmetricEncryptionAlgorithmGB.Location = new System.Drawing.Point(17, 345);
+            this.SymmetricEncryptionAlgorithmGB.Name = "SymmetricEncryptionAlgorithmGB";
+            this.SymmetricEncryptionAlgorithmGB.Size = new System.Drawing.Size(330, 128);
+            this.SymmetricEncryptionAlgorithmGB.TabIndex = 17;
+            this.SymmetricEncryptionAlgorithmGB.TabStop = false;
+            // 
+            // DefaultRB
+            // 
+            this.DefaultRB.AutoSize = true;
+            this.DefaultRB.Location = new System.Drawing.Point(6, 25);
+            this.DefaultRB.Name = "DefaultRB";
+            this.DefaultRB.Size = new System.Drawing.Size(233, 24);
+            this.DefaultRB.TabIndex = 0;
+            this.DefaultRB.TabStop = true;
+            this.DefaultRB.Text = "Default - XSalsa20Poly1305";
+            this.DefaultRB.UseVisualStyleBackColor = true;
+            // 
+            // XChaCha20Poly1305RB
+            // 
+            this.XChaCha20Poly1305RB.AutoSize = true;
+            this.XChaCha20Poly1305RB.Location = new System.Drawing.Point(7, 56);
+            this.XChaCha20Poly1305RB.Name = "XChaCha20Poly1305RB";
+            this.XChaCha20Poly1305RB.Size = new System.Drawing.Size(186, 24);
+            this.XChaCha20Poly1305RB.TabIndex = 1;
+            this.XChaCha20Poly1305RB.TabStop = true;
+            this.XChaCha20Poly1305RB.Text = "XChaCha20Poly1305";
+            this.XChaCha20Poly1305RB.UseVisualStyleBackColor = true;
+            // 
+            // AES256GCMRB
+            // 
+            this.AES256GCMRB.AutoSize = true;
+            this.AES256GCMRB.Location = new System.Drawing.Point(6, 87);
+            this.AES256GCMRB.Name = "AES256GCMRB";
+            this.AES256GCMRB.Size = new System.Drawing.Size(302, 24);
+            this.AES256GCMRB.TabIndex = 2;
+            this.AES256GCMRB.TabStop = true;
+            this.AES256GCMRB.Text = "AES256GCM (Few device supports it)";
+            this.AES256GCMRB.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 317);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(307, 20);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Choose A Symmetric Encryption Algorithm";
+            // 
             // OwnerUploadFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(870, 501);
+            this.ClientSize = new System.Drawing.Size(870, 583);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.SymmetricEncryptionAlgorithmGB);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.UploadProgressBar);
             this.Controls.Add(this.UploadServerBTN);
@@ -188,6 +249,8 @@
             this.Name = "OwnerUploadFile";
             this.Text = "OwnerUploadFile";
             this.Load += new System.EventHandler(this.OwnerUploadFile_Load);
+            this.SymmetricEncryptionAlgorithmGB.ResumeLayout(false);
+            this.SymmetricEncryptionAlgorithmGB.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -210,5 +273,10 @@
         private System.Windows.Forms.Label label5;
         private System.ComponentModel.BackgroundWorker MyBackGroundWorker;
         private System.ComponentModel.BackgroundWorker UploadBackGroundWorker;
+        private System.Windows.Forms.GroupBox SymmetricEncryptionAlgorithmGB;
+        private System.Windows.Forms.RadioButton AES256GCMRB;
+        private System.Windows.Forms.RadioButton XChaCha20Poly1305RB;
+        private System.Windows.Forms.RadioButton DefaultRB;
+        private System.Windows.Forms.Label label1;
     }
 }

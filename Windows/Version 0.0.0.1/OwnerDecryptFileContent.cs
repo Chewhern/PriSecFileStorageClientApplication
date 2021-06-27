@@ -800,7 +800,25 @@ namespace PriSecFileStorageClient
                                 Array.Copy(VerifiedServerFileContent, Nonce.Length, CipherTextWithMAC, 0, CipherTextWithMAC.Length);
                                 try
                                 {
-                                    DecryptedFileBytes = SodiumSecretBox.Open(CipherTextWithMAC, Nonce, Key);
+                                    if (DefaultRB.Checked == true)
+                                    {
+                                        DecryptedFileBytes = SodiumSecretBox.Open(CipherTextWithMAC, Nonce, Key);
+                                    }
+                                    if (XChaCha20Poly1305RB.Checked == true)
+                                    {
+                                        DecryptedFileBytes = SodiumSecretBoxXChaCha20Poly1305.Open(CipherTextWithMAC, Nonce, Key);
+                                    }
+                                    if (AES256GCMRB.Checked == true)
+                                    {
+                                        if (SodiumSecretAeadAES256GCM.IsAES256GCMAvailable() == true) 
+                                        {
+                                            DecryptedFileBytes = SodiumSecretAeadAES256GCM.Decrypt(CipherTextWithMAC, Nonce, Key);
+                                        }
+                                        else 
+                                        {
+                                            MessageBox.Show("Your device does not support AES256 GCM", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        }
+                                    }
                                 }
                                 catch
                                 {

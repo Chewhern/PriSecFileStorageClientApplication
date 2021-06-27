@@ -63,7 +63,7 @@ namespace PriSecFileStorageClient
                 ClientECDSASK = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + ETLSSessionID + "\\" + "ECDSASK.txt");
                 if (MySecureUserID.Length > 45)
                 {
-                    MySecureUserID = MySecureUserID.Substring(0, 45);
+                    MySecureUserID = MySecureUserID.Substring(0, 30);
                 }
                 MySecureUserIDByte = Encoding.UTF8.GetBytes(MySecureUserID);
                 UserLoginED25519PK = MyLoginKeyPair.PublicKey;
@@ -85,7 +85,7 @@ namespace PriSecFileStorageClient
                 {
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://{link to API}");
+                        client.BaseAddress = new Uri("https://{API URL}");
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));

@@ -7,10 +7,10 @@ namespace PriSecFileStorageClient
 {
     public class CheckOutPageHolderModel
     {
-        public String CheckOutPageID { get; set; }
+        public String PayPalOrderID { get; set; }
 
         public String CheckOutPageUrl { get; set; }
 
-        public String Status { get; set; }
+        public String InvoiceID { get; set; }
     }
 }

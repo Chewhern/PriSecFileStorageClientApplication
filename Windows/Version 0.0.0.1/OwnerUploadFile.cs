@@ -24,7 +24,6 @@ namespace PriSecFileStorageClient
         private Thread EncryptionThread;
         private Thread UploadThread;
 
-
         public OwnerUploadFile()
         {
             InitializeComponent();
@@ -57,14 +56,16 @@ namespace PriSecFileStorageClient
 
         private void EncryptBTN_Click(object sender, EventArgs e)
         {
-            if(FileSizeTB.Text!=null && FileSizeTB.Text.CompareTo("") != 0 && DirectoryIDTempStorage.DirectoryID!=null && DirectoryIDTempStorage.DirectoryID.CompareTo("")!=0 && UserIDTempStorage.UserID!=null && UserIDTempStorage.UserID.CompareTo("")!=0) 
-            {                
+            if(FileSizeTB.Text!=null && FileSizeTB.Text.CompareTo("") != 0 && DirectoryIDTempStorage.DirectoryID!=null && DirectoryIDTempStorage.DirectoryID.CompareTo("")!=0 && UserIDTempStorage.UserID!=null && UserIDTempStorage.UserID.CompareTo("")!=0 ||(DefaultRB.Checked==true || XChaCha20Poly1305RB.Checked==true || AES256GCMRB.Checked==true)) 
+            {
                 int FileSize = int.Parse(FileSizeTB.Text);
                 String DirectoryID = DirectoryIDTempStorage.DirectoryID;
                 String FileName = PlainTextFileChooserDialog.SafeFileName;
                 String RandomFileName = IDGenerator.GenerateUniqueString();
                 RevampedKeyPair MyKeyPair = SodiumPublicKeyAuth.GenerateRevampedKeyPair();
                 Byte[] Nonce = SodiumSecretBox.GenerateNonce();
+                Byte[] XChaCha20Poly1305Nonce = SodiumSecretBoxXChaCha20Poly1305.GenerateNonce();
+                Byte[] AES256GCMNonce = SodiumSecretAeadAES256GCM.GeneratePublicNonce();
                 Byte[] Key = SodiumSecretBox.GenerateKey();
                 Byte[] FileBytes = new Byte[] { };
                 Byte[] EncryptedFileBytes = new Byte[] { };
@@ -128,18 +129,58 @@ namespace PriSecFileStorageClient
                             Key = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\Key\\Key1.txt");
                             UserECDSASK = File.ReadAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\ED25519SK\\SK1.txt");
                             FileBytes = File.ReadAllBytes(PlainTextFileChooserDialog.FileName);
-                            EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
-                            CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
-                            LocalSignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
-                            File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileName.txt",Encoding.UTF8.GetBytes(FileName));
-                            FileCount = Directory.GetFiles(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName).Length;
-                            ActualFileCount = FileCount - 4;
-                            ActualFileCount += 1;
-                            File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileContent"+ActualFileCount.ToString()+".txt", LocalSignedCombinedEncryptedFileBytes);
-                            EncryptionProgressBar.Value = 100;
-                            MyGeneralGCHandle = GCHandle.Alloc(Key, GCHandleType.Pinned);
-                            SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), Key.Length);
-                            MyGeneralGCHandle.Free();
+                            if (DefaultRB.Checked==true) 
+                            {
+                                EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
+                                CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                                LocalSignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
+                                File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileName.txt", Encoding.UTF8.GetBytes(FileName));
+                                FileCount = Directory.GetFiles(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName).Length;
+                                ActualFileCount = FileCount - 4;
+                                ActualFileCount += 1;
+                                File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileContent" + ActualFileCount.ToString() + ".txt", LocalSignedCombinedEncryptedFileBytes);
+                                EncryptionProgressBar.Value = 100;
+                                MyGeneralGCHandle = GCHandle.Alloc(Key, GCHandleType.Pinned);
+                                SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), Key.Length);
+                                MyGeneralGCHandle.Free();
+                            }
+                            if (XChaCha20Poly1305RB.Checked==true) 
+                            {
+                                EncryptedFileBytes = SodiumSecretBoxXChaCha20Poly1305.Create(FileBytes, XChaCha20Poly1305Nonce, Key);
+                                CombinedEncryptedFileBytes = XChaCha20Poly1305Nonce.Concat(EncryptedFileBytes).ToArray();
+                                LocalSignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
+                                File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileName.txt", Encoding.UTF8.GetBytes(FileName));
+                                FileCount = Directory.GetFiles(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName).Length;
+                                ActualFileCount = FileCount - 4;
+                                ActualFileCount += 1;
+                                File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileContent" + ActualFileCount.ToString() + ".txt", LocalSignedCombinedEncryptedFileBytes);
+                                EncryptionProgressBar.Value = 100;
+                                MyGeneralGCHandle = GCHandle.Alloc(Key, GCHandleType.Pinned);
+                                SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), Key.Length);
+                                MyGeneralGCHandle.Free();
+                            }
+                            if (AES256GCMRB.Checked==true) 
+                            {
+                                if (SodiumSecretAeadAES256GCM.IsAES256GCMAvailable() == true)
+                                {
+                                    EncryptedFileBytes = SodiumSecretAeadAES256GCM.Encrypt(FileBytes, AES256GCMNonce, Key);
+                                    CombinedEncryptedFileBytes = AES256GCMNonce.Concat(EncryptedFileBytes).ToArray();
+                                    LocalSignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
+                                    File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileName.txt", Encoding.UTF8.GetBytes(FileName));
+                                    FileCount = Directory.GetFiles(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName).Length;
+                                    ActualFileCount = FileCount - 4;
+                                    ActualFileCount += 1;
+                                    File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileContent" + ActualFileCount.ToString() + ".txt", LocalSignedCombinedEncryptedFileBytes);
+                                    EncryptionProgressBar.Value = 100;
+                                    MyGeneralGCHandle = GCHandle.Alloc(Key, GCHandleType.Pinned);
+                                    SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), Key.Length);
+                                    MyGeneralGCHandle.Free();
+                                }
+                                else 
+                                {
+                                    MessageBox.Show("Your device does not support AES256 GCM","Information",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                                }
+                            }
                         }
                         else
                         {
@@ -161,7 +202,7 @@ namespace PriSecFileStorageClient
             }
             else 
             {
-                MessageBox.Show("You haven't login or choose a file yet","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("You haven't login or choose a file yet or choose a symmetric encryption algorithm","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 
@@ -261,7 +302,10 @@ namespace PriSecFileStorageClient
             String FileName = PlainTextFileChooserDialog.SafeFileName;
             String RandomFileName = RandomFileNameTB.Text;
             Boolean HasRemainder = false;
+            Boolean GeneralChecker = true;
             Byte[] Nonce = SodiumSecretBox.GenerateNonce();
+            Byte[] XChaCha20Poly1305Nonce = SodiumSecretBoxXChaCha20Poly1305.GenerateNonce();
+            Byte[] AES256GCMNonce = SodiumSecretAeadAES256GCM.GeneratePublicNonce();
             Byte[] Key = new Byte[] { };
             Byte[] FileBytes = new Byte[] { };
             Byte[] EncryptedFileBytes = new Byte[] { };
@@ -318,8 +362,29 @@ namespace PriSecFileStorageClient
                             EncryptedFileBytes = new Byte[] { };
                             CombinedEncryptedFileBytes = new Byte[] { };
                             EndOfFile = MessageFileStream.Read(FileBytes, 0, FileBytes.Length);
-                            EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
-                            CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                            if (DefaultRB.Checked == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
+                                CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            if (XChaCha20Poly1305RB.Checked == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretBoxXChaCha20Poly1305.Create(FileBytes, XChaCha20Poly1305Nonce, Key);
+                                CombinedEncryptedFileBytes = XChaCha20Poly1305Nonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            if (AES256GCMRB.Checked == true)
+                            {
+                                if (SodiumSecretAeadAES256GCM.IsAES256GCMAvailable() == true) 
+                                {
+                                    EncryptedFileBytes = SodiumSecretAeadAES256GCM.Encrypt(FileBytes, AES256GCMNonce, Key);
+                                    CombinedEncryptedFileBytes = AES256GCMNonce.Concat(EncryptedFileBytes).ToArray();
+                                }
+                                else 
+                                {
+                                    GeneralChecker = false;
+                                    break;
+                                }
+                            }
                             SignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
                         }
                         else
@@ -328,21 +393,69 @@ namespace PriSecFileStorageClient
                             EncryptedFileBytes = new Byte[] { };
                             CombinedEncryptedFileBytes = new Byte[] { };
                             EndOfFile = MessageFileStream.Read(FileBytes, 0, FileBytes.Length);
-                            EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
-                            CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                            if (DefaultRB.Checked == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
+                                CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            if (XChaCha20Poly1305RB.Checked == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretBoxXChaCha20Poly1305.Create(FileBytes, XChaCha20Poly1305Nonce, Key);
+                                CombinedEncryptedFileBytes = XChaCha20Poly1305Nonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            if (AES256GCMRB.Checked == true)
+                            {
+                                if (SodiumSecretAeadAES256GCM.IsAES256GCMAvailable() == true)
+                                {
+                                    EncryptedFileBytes = SodiumSecretAeadAES256GCM.Encrypt(FileBytes, AES256GCMNonce, Key);
+                                    CombinedEncryptedFileBytes = AES256GCMNonce.Concat(EncryptedFileBytes).ToArray();
+                                }
+                                else
+                                {
+                                    GeneralChecker = false;
+                                    break;
+                                }
+                            }
                             SignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
                         }
                     }
                     else
                     {
+                        Nonce = new Byte[] { };
+                        XChaCha20Poly1305Nonce = new Byte[] { };
+                        AES256GCMNonce = new Byte[] { };
+                        Nonce = SodiumSecretBox.GenerateNonce();
+                        XChaCha20Poly1305Nonce = SodiumSecretBoxXChaCha20Poly1305.GenerateNonce();
+                        AES256GCMNonce = SodiumSecretAeadAES256GCM.GeneratePublicNonce();
                         if (LoopCount == Count)
                         {
                             FileBytes = new Byte[Remainder];
                             EncryptedFileBytes = new Byte[] { };
                             CombinedEncryptedFileBytes = new Byte[] { };
                             EndOfFile = MessageFileStream.Read(FileBytes, 0, FileBytes.Length);
-                            EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
-                            CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                            if (DefaultRB.Checked == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
+                                CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            if (XChaCha20Poly1305RB.Checked == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretBoxXChaCha20Poly1305.Create(FileBytes, XChaCha20Poly1305Nonce, Key);
+                                CombinedEncryptedFileBytes = XChaCha20Poly1305Nonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            if (AES256GCMRB.Checked == true)
+                            {
+                                if (SodiumSecretAeadAES256GCM.IsAES256GCMAvailable() == true)
+                                {
+                                    EncryptedFileBytes = SodiumSecretAeadAES256GCM.Encrypt(FileBytes, AES256GCMNonce, Key);
+                                    CombinedEncryptedFileBytes = AES256GCMNonce.Concat(EncryptedFileBytes).ToArray();
+                                }
+                                else
+                                {
+                                    GeneralChecker = false;
+                                    break;
+                                }
+                            }
                             SignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
                         }
                         else
@@ -351,8 +464,29 @@ namespace PriSecFileStorageClient
                             EncryptedFileBytes = new Byte[] { };
                             CombinedEncryptedFileBytes = new Byte[] { };
                             EndOfFile = MessageFileStream.Read(FileBytes, 0, FileBytes.Length);
-                            EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
-                            CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                            if (DefaultRB.Checked == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
+                                CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            if (XChaCha20Poly1305RB.Checked == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretBoxXChaCha20Poly1305.Create(FileBytes, XChaCha20Poly1305Nonce, Key);
+                                CombinedEncryptedFileBytes = XChaCha20Poly1305Nonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            if (AES256GCMRB.Checked == true)
+                            {
+                                if (SodiumSecretAeadAES256GCM.IsAES256GCMAvailable() == true)
+                                {
+                                    EncryptedFileBytes = SodiumSecretAeadAES256GCM.Encrypt(FileBytes, AES256GCMNonce, Key);
+                                    CombinedEncryptedFileBytes = AES256GCMNonce.Concat(EncryptedFileBytes).ToArray();
+                                }
+                                else
+                                {
+                                    GeneralChecker = false;
+                                    break;
+                                }
+                            }
                             SignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
                         }
                     }
@@ -365,16 +499,63 @@ namespace PriSecFileStorageClient
                     if (LoopCount == 1)
                     {
                         EndOfFile = MessageFileStream.Read(FileBytes, 0, FileBytes.Length);
-                        EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
-                        CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                        if (DefaultRB.Checked == true)
+                        {
+                            EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
+                            CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                        }
+                        if (XChaCha20Poly1305RB.Checked == true)
+                        {
+                            EncryptedFileBytes = SodiumSecretBoxXChaCha20Poly1305.Create(FileBytes, XChaCha20Poly1305Nonce, Key);
+                            CombinedEncryptedFileBytes = XChaCha20Poly1305Nonce.Concat(EncryptedFileBytes).ToArray();
+                        }
+                        if (AES256GCMRB.Checked == true)
+                        {
+                            if (SodiumSecretAeadAES256GCM.IsAES256GCMAvailable() == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretAeadAES256GCM.Encrypt(FileBytes, AES256GCMNonce, Key);
+                                CombinedEncryptedFileBytes = AES256GCMNonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            else
+                            {
+                                GeneralChecker = false;
+                                break;
+                            }
+                        }
                         SignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
                     }
                     else
                     {
+                        Nonce = new Byte[] { };
+                        XChaCha20Poly1305Nonce = new Byte[] { };
+                        AES256GCMNonce = new Byte[] { };
                         Nonce = SodiumSecretBox.GenerateNonce();
+                        XChaCha20Poly1305Nonce = SodiumSecretBoxXChaCha20Poly1305.GenerateNonce();
+                        AES256GCMNonce = SodiumSecretAeadAES256GCM.GeneratePublicNonce();
                         EndOfFile = MessageFileStream.Read(FileBytes, 0, FileBytes.Length);
-                        EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
-                        CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                        if (DefaultRB.Checked == true)
+                        {
+                            EncryptedFileBytes = SodiumSecretBox.Create(FileBytes, Nonce, Key);
+                            CombinedEncryptedFileBytes = Nonce.Concat(EncryptedFileBytes).ToArray();
+                        }
+                        if (XChaCha20Poly1305RB.Checked == true)
+                        {
+                            EncryptedFileBytes = SodiumSecretBoxXChaCha20Poly1305.Create(FileBytes, XChaCha20Poly1305Nonce, Key);
+                            CombinedEncryptedFileBytes = XChaCha20Poly1305Nonce.Concat(EncryptedFileBytes).ToArray();
+                        }
+                        if (AES256GCMRB.Checked == true)
+                        {
+                            if (SodiumSecretAeadAES256GCM.IsAES256GCMAvailable() == true)
+                            {
+                                EncryptedFileBytes = SodiumSecretAeadAES256GCM.Encrypt(FileBytes, AES256GCMNonce, Key);
+                                CombinedEncryptedFileBytes = AES256GCMNonce.Concat(EncryptedFileBytes).ToArray();
+                            }
+                            else
+                            {
+                                GeneralChecker = false;
+                                break;
+                            }
+                        }
                         SignedCombinedEncryptedFileBytes = SodiumPublicKeyAuth.Sign(CombinedEncryptedFileBytes, UserECDSASK);
                     }
                 }
@@ -392,11 +573,14 @@ namespace PriSecFileStorageClient
                 MyKeyPair = SodiumPublicKeyAuth.GenerateRevampedKeyPair();
                 LoopCount += 1;
             }
-            File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileName.txt", Encoding.UTF8.GetBytes(FileName));
-            RandomFileNameTB.Text = RandomFileName;
-            MyGeneralGCHandle = GCHandle.Alloc(Key, GCHandleType.Pinned);
-            SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), Key.Length);
-            MyGeneralGCHandle.Free();
+            if (GeneralChecker == true) 
+            {
+                File.WriteAllBytes(Application.StartupPath + "\\Application_Data\\User\\" + UserIDTempStorage.UserID + "\\Server_Directory_Data\\" + DirectoryID + "\\Encrypted_Files\\" + RandomFileName + "\\FileName.txt", Encoding.UTF8.GetBytes(FileName));
+                RandomFileNameTB.Text = RandomFileName;
+                MyGeneralGCHandle = GCHandle.Alloc(Key, GCHandleType.Pinned);
+                SodiumSecureMemory.MemZero(MyGeneralGCHandle.AddrOfPinnedObject(), Key.Length);
+                MyGeneralGCHandle.Free();
+            }
             MessageFileStream.Close();
             EncryptionThread.Abort();
         }
