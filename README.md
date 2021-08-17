@@ -39,11 +39,116 @@ VPN will also block access to my stuffs(apply to China or any similar country ne
 
 What exactly is PriSecFileStorage?
   <br>-> It's an online file storage system that was built based on zero trust towards the service provider.
-  <br>-> This includes but not limited to:
-<pre>
-    <br>=> Encrypting/Decrypting on client device rather than server
-    <br>=> File metadata won't be useful for service provider as symmetric encryption encrypted file content and a random file name was sent 
-   instead of original file name
-    <br>=> Public identity like phone was not collected(email is required by PayPal)
-    <br>=> Login mechanism similar to SSH Key Login was used
-</pre>
+  <br>-> This is an application that uses no password in logging in or generating cryptography keys
+  <br>-> The generation of cryptography keys be it symmetric encryption keys or public key cryptography keys
+  are all relying on pure cryptography randomness(by default)
+  <br>-> This uses SSH key style/public key digital signature algorithm with challenge and respond login
+  mechanism
+  <br>-> Symmetric encryption keys are all generated and consumed locally, these are never shared with
+  server or send to server
+  <br>-> A confusion was deliberately put on server side to further conceal what the file really is.
+
+This readme will describe the cryptography element of how this file storage works.
+
+This readme will also describe how this file storage works in general.
+
+====Login Mechanism====
+
+SSH key style login/public key cryptography digital signature with challenge and respond was used.
+
+Majority of the user just need to take a good care towards the keys generated after making or
+renewing the payment. The keys generated will be used to authenticate with the server in backend
+to prove to the server who the user really is. Did they have access to access the files?
+
+If there exists a special made corporate/company version, the keys generated through registration
+or login do play a role. Otherwise, the normal version, user don't need to worry about the
+registration keys as they don't play an important role.
+
+===================
+
+====Randomness and confusion in file name====
+
+File name is always a major concern as it can tell a little too much information regarding the file
+itself. It is not certain whether the file name gives clear hint on what are the files that the
+user store or upload. File name such as customer info, bank info, passwords do give a clear information
+about the file. If these information were known by bad actors, safely speaking, they can muster up
+the computational power to break the encrypted file content. This do seem like overworrying but it
+does happen. Giving out the information of the original file name does make the confidentiality
+or privacy aspect of the file gone by approximately 50% as people still require to break the
+encryption on the file content.
+
+By considering that this can happen, original filename was never sent to server. Instead, the
+client software by default will generate random password excluding special characters as the
+random file name. This random file name was then send to the server. This increases the file's
+confidentiality/privacy as it brings confusion to the service provider and bad actor whether it's
+a worthy decision to break or remove the encryption on the file content.
+
+Original filename and its extension never leaves the client device/machine. However, this do means
+that the client can't lose the file that stores its original file name and extension. Losing this
+file do mean that decryption can't be done properly at client device in latter days.
+
+=================================
+
+====Symmetric encryption and public key digital signature signing====
+
+Let's assume the file is 15 MB in size. The file will be split into 3 parts, which are
+part A, B and C, each part size will be exactly the same. 
+
+Client will generate a random symmetric encryption key and digital signature keypair
+on their devices. Part A will then first encrypt with the random symmetric encryption
+key, then part A will sign it with the digital signature keypair private key.
+
+Part B and part C will follow the way like Part A. Each time the splitted file will
+use different random key and sign with random private key.
+
+These generated keypairs(both public and private key) and keys are not sent to the server.
+
+The existence of signature public key was to let the file owner to verify its own file
+(signature verification) or let their friends to verify the file(signature verification)
+before the file can be decrypted.
+
+Given this case, the public keys aren't meant to let the server hold. As the server is
+not the verifier be it the file owner itself or the file owner friends.
+
+================================================
+
+====Keys and digital signature public keys sharing(Will available in future update)====
+
+Protocols such as X3DH or end to end encryption can be used to share keys privately
+and securely with the recipient. However, the server will need to have adjustments
+so that the keys and digital signature public key sharing could be done.
+
+However, this feature is uncertain as E2EE application can be used to share
+the keys and public keys securely.
+
+=========================================================
+
+====Authorization(Will available in future update)====
+
+Assuming that user would like to share files with their friends or colleagues, it's best
+that the file owner can have a permission system to let the other users able to access
+their files. The permission system will allow other users able to access file owner files
+but not decrypt it.
+
+The access can only be granted if the file owner puts digital signature public key of the
+other user to the server. As usual, the login mechanism like SSH key or digital signature
+with challenge and respond mechanism is used to authenticate with the server.
+
+If and only the file owner puts public key to the server and the user authenticate themselves
+with the server, else the file access request will be denied.
+
+=====================================
+
+====Keys backup and data backup(advise and an uncertain future update)====
+
+If there's a need to backup the keys(important) like the keys generated
+by making/renewing payment, encrypting/decrypting the files and the signature
+verification of the files. User are advised to do it securely and privately
+through E2EE or any other file storage that really has "decryption that 
+server can't undone".
+
+There may be a need to add support to the client system so that sorting out
+which files to backup is easier. However, I wasn't sure if such feature
+is required.
+
+==================================
