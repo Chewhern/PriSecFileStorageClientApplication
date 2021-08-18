@@ -8,3 +8,6 @@ file owner files if the owner allows them to do so.
 reserve for keys decentralized version[Corporate/Company])
 6. Add parallel functions for non file owner user.
 7. Have a better and less confusing UI
+
+
+There may be more to come, it depends on the changes on server side.
