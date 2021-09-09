@@ -1,7 +1,0 @@
-Version 0.0.0.2 (2nd and 3rd feature allows transferring of keys between different Windows devices)
-  -> Add better error showing mechanism
-  -> Add features to enable offline based E2EE selective keys and information transmission
-  -> Add features to enable account holder to let other users to access files
-
-Version 0.0.0.3
-  -> Try to reduce the "Spaghetti code" and introduce more organized "Atomic code"
