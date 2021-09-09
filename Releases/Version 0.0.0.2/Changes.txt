@@ -11,5 +11,3 @@ reserve for keys decentralized version[Corporate/Company])
 
 Warning:
 1. The import and backup function that sources from C# is kinda buggy. More on that later. 
-
-There may be more to come, it depends on the changes on server side.
