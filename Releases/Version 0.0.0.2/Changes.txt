@@ -9,5 +9,7 @@ reserve for keys decentralized version[Corporate/Company])
 6. Add parallel functions for non file owner user.
 7. Have a better and less confusing UI
 
+Warning:
+1. The import and backup function that sources from C# is kinda buggy. More on that later. 
 
 There may be more to come, it depends on the changes on server side.
