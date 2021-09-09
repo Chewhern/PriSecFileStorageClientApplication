@@ -7,3 +7,6 @@ https://dotnet.microsoft.com/download/dotnet-framework/net472
 
 Now the application is running in sandbox(PayPal), you will need to use these
 sandbox credentials to mimic making payment.
+
+Login Email: sb-vfpvt6618287@personal.example.com
+Login Password: J/5Cv.j4
