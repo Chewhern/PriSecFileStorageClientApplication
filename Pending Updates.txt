@@ -1,3 +1,0 @@
-Corporate/Company Version (May have changes):
-  -> Decentralize distribution of ED25519 SK (KDF on numerous SK that can't be social engineer)
-  -> Decentralize distribution of XSalsa20 Key (KDF on numerous non social engineering-able symmetric key)
