@@ -14,6 +14,10 @@
 
 # Version 0.0.5 (Probably Final)
 1. Switch from .Net Framework 4.7.2 to .Net 5
+2. Add User Guide
+3. Add User Manual
+4. Add T&C
+5. Add Privacy Policy
 
 # Uncertain Updates (20%, low chance in applying)
 1. Switch from illegal cross threads to legal cross threads
