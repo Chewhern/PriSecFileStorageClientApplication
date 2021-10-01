@@ -38,6 +38,8 @@ VPN will also block access to my stuffs(apply to China or any similar country ne
 ```
 
 ## Versions (Windows)
+**If you want to download the application simply navigate to "releases", that's the compiled and running
+windows application**
 1. 0.0.3 is a client application that does not include problematic privacy based MFA
 2. 0.0.4 is a client application that includes problematic privacy based MFA (Work in progress)
 3. 0.0.5/0.0.6 is client application that switches from .Net Framework to .Net 5
