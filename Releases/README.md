@@ -1,4 +1,4 @@
-<b>Version 0.0.0.1 is now deprecated</b>
+<b>Version 0.0.0.1 and 0.0.0.2 is now deprecated</b>
 
 Try to run the application's exe, if you can't run the application's exe, then try to run the setup in
 this folder.
