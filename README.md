@@ -37,7 +37,12 @@ or any other similar countries, just use it privately. In the worst case, expect
 VPN will also block access to my stuffs(apply to China or any similar country netizens).
 ```
 
-What exactly is PriSecFileStorage?
+## Versions (Windows)
+1. 0.0.3 is a client application that does not include problematic privacy based MFA
+2. 0.0.4 is a client application that includes problematic privacy based MFA (Work in progress)
+3. 0.0.5/0.0.6 is client application that switches from .Net Framework to .Net 5
+
+### What exactly is PriSecFileStorage?
   <br>-> It's an online file storage system that was built based on zero trust towards the service provider.
   <br>-> This is an application that uses no password in logging in or generating cryptography keys
   <br>-> The generation of cryptography keys be it symmetric encryption keys or public key cryptography keys
@@ -52,7 +57,7 @@ This readme will describe the cryptography element of how this file storage work
 
 This readme will also describe how this file storage works in general.
 
-====Login Mechanism====
+#### Login Mechanism
 
 SSH key style login/public key cryptography digital signature with challenge and respond was used.
 
@@ -64,9 +69,7 @@ If there exists a special made corporate/company version, the keys generated thr
 or login do play a role. Otherwise, the normal version, user don't need to worry about the
 registration keys as they don't play an important role.
 
-===================
-
-====Randomness and confusion in file name====
+#### Randomness and confusion in file name
 
 File name is always a major concern as it can tell a little too much information regarding the file
 itself. It is not certain whether the file name gives clear hint on what are the files that the
@@ -87,9 +90,7 @@ Original filename and its extension never leaves the client device/machine. Howe
 that the client can't lose the file that stores its original file name and extension. Losing this
 file do mean that decryption can't be done properly at client device in latter days.
 
-=================================
-
-====Symmetric encryption and public key digital signature signing====
+#### Symmetric encryption and public key digital signature signing
 
 Let's assume the file is 15 MB in size. The file will be split into 3 parts, which are
 part A, B and C, each part size will be exactly the same. 
@@ -109,5 +110,3 @@ before the file can be decrypted.
 
 Given this case, the public keys aren't meant to let the server hold. As the server is
 not the verifier be it the file owner itself or the file owner friends.
-
-================================================
