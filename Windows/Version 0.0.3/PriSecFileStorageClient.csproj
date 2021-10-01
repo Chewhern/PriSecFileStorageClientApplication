@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1601EDF1-12A6-4371-B1EE-B45BCCE760D1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>PriSecFileStorageClient</RootNamespace>
+    <AssemblyName>PriSecFileStorageClient</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\chew\Desktop\HernITSoftware\C# WinForm\Software\PriSecFileStorageClient Software\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>0.0.2.0</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>3C67292C438371F59DD6F64CC5970AB6419FB5BD</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>PriSecFileStorageClient_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ASodium, Version=0.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ASodium.0.5.2\lib\net472\ASodium.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionChooser.Designer.cs">
+      <DependentUpon>ActionChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportInformationFromZip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportInformationFromZip.Designer.cs">
+      <DependentUpon>ImportInformationFromZip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AllowedUserListModel.cs" />
+    <Compile Include="Model\CheckOutPageHolderModel.cs" />
+    <Compile Include="Helper\DirectoryIDTempStorage.cs" />
+    <Compile Include="Model\ECDH_ECDSA_Models.cs" />
+    <Compile Include="Helper\ETLSSessionIDStorage.cs" />
+    <Compile Include="Helper\FileBytesChunkClass.cs" />
+    <Compile Include="Model\FileCreationModel.cs" />
+    <Compile Include="Model\LoginModels.cs" />
+    <Compile Include="Helper\MainFormHolder.cs" />
+    <Compile Include="OfflineBackupAllKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OfflineBackupAllKeys.Designer.cs">
+      <DependentUpon>OfflineBackupAllKeys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerActionChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerActionChooser.Designer.cs">
+      <DependentUpon>OwnerActionChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerAddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerAddUser.Designer.cs">
+      <DependentUpon>OwnerAddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerCheckFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerCheckFileContent.Designer.cs">
+      <DependentUpon>OwnerCheckFileContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerDecryptFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerDecryptFileContent.Designer.cs">
+      <DependentUpon>OwnerDecryptFileContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerDeleteFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerDeleteFileContent.Designer.cs">
+      <DependentUpon>OwnerDeleteFileContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerMakePayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerMakePayment.Designer.cs">
+      <DependentUpon>OwnerMakePayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerRemoveUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerRemoveUser.Designer.cs">
+      <DependentUpon>OwnerRemoveUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerRenewPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerRenewPayment.Designer.cs">
+      <DependentUpon>OwnerRenewPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerStorageActions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerStorageActions.Designer.cs">
+      <DependentUpon>OwnerStorageActions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerUploadFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerUploadFile.Designer.cs">
+      <DependentUpon>OwnerUploadFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerViewAllowedUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerViewAllowedUser.Designer.cs">
+      <DependentUpon>OwnerViewAllowedUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\RegisterModel.cs" />
+    <Compile Include="Helper\SecureIDGenerator.cs" />
+    <Compile Include="Model\UploadFilesModel.cs" />
+    <Compile Include="UserActionChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserActionChooser.Designer.cs">
+      <DependentUpon>UserActionChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserDecryptFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserDecryptFileContent.Designer.cs">
+      <DependentUpon>UserDecryptFileContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserGenerateKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserGenerateKey.Designer.cs">
+      <DependentUpon>UserGenerateKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserImportInformationFromZip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserImportInformationFromZip.Designer.cs">
+      <DependentUpon>UserImportInformationFromZip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserOfflineBackupAllKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserOfflineBackupAllKeys.Designer.cs">
+      <DependentUpon>UserOfflineBackupAllKeys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserStorageActions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserStorageActions.Designer.cs">
+      <DependentUpon>UserStorageActions.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ActionChooser.resx">
+      <DependentUpon>ActionChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportInformationFromZip.resx">
+      <DependentUpon>ImportInformationFromZip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OfflineBackupAllKeys.resx">
+      <DependentUpon>OfflineBackupAllKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerActionChooser.resx">
+      <DependentUpon>OwnerActionChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerAddUser.resx">
+      <DependentUpon>OwnerAddUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerCheckFileContent.resx">
+      <DependentUpon>OwnerCheckFileContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerDecryptFileContent.resx">
+      <DependentUpon>OwnerDecryptFileContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerDeleteFileContent.resx">
+      <DependentUpon>OwnerDeleteFileContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerMakePayment.resx">
+      <DependentUpon>OwnerMakePayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerRemoveUser.resx">
+      <DependentUpon>OwnerRemoveUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerRenewPayment.resx">
+      <DependentUpon>OwnerRenewPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerStorageActions.resx">
+      <DependentUpon>OwnerStorageActions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerUploadFile.resx">
+      <DependentUpon>OwnerUploadFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerViewAllowedUser.resx">
+      <DependentUpon>OwnerViewAllowedUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="UserActionChooser.resx">
+      <DependentUpon>UserActionChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserDecryptFileContent.resx">
+      <DependentUpon>UserDecryptFileContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserGenerateKey.resx">
+      <DependentUpon>UserGenerateKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserImportInformationFromZip.resx">
+      <DependentUpon>UserImportInformationFromZip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserOfflineBackupAllKeys.resx">
+      <DependentUpon>UserOfflineBackupAllKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserStorageActions.resx">
+      <DependentUpon>UserStorageActions.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="PriSecFileStorageClient_TemporaryKey.pfx" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
