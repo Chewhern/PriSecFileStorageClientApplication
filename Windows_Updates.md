@@ -6,6 +6,7 @@
 2. Add some UI improvement
 3. Allow owner to view added user
 4. Remove account registration/login
+5. Fix some bugs
 
 # Version 0.0.4
 1. Add problematic privacy based MFA
