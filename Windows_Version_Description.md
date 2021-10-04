@@ -1,4 +1,4 @@
-# Version 0.0.2(Current)
+# Version 0.0.2(Deprecated)
 1. Added some functionality and the UI is cleaner and more straightforward
 
 # Version 0.0.3
