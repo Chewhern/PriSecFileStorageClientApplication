@@ -10,8 +10,7 @@
 
 # Version 0.0.4
 1. Add problematic privacy based MFA
-2. Add emergency delete function to delete MFA device
-3. Add better error showing mechanism
+2. Add emergency delete function to delete MFA device data
 
 # Version 0.0.5 (Probably Final)
 1. Switch from .Net Framework 4.7.2 to .Net 5
