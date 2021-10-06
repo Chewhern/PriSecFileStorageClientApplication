@@ -37,7 +37,7 @@ or any other similar countries, just use it privately. In the worst case, expect
 VPN will also block access to my stuffs(apply to China or any similar country netizens).
 ```
 
-## Versions (Windows)
+## Versions (Windows) --It's recommended to go for 0.0.5 version instead of going for older versions.
 **If you want to download the application simply navigate to "releases", that's the compiled and running
 windows application**
 1. 0.0.3 is a client application that does not include problematic privacy based MFA
