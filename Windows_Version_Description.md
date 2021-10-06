@@ -14,14 +14,16 @@
 
 # Version 0.0.5 (Probably Final)
 1. Switch from .Net Framework 4.7.2 to .Net 5
-2. Add User Guide
-3. Add User Manual
-4. Add T&C
-5. Add Privacy Policy
+2. Add better UI
+3. Fixes some bugs
+4. Added some missing functionality
+5. No longer uses illegal cross threads
+6. Add User Guide
+7. Add User Manual
+8. Add T&C
+9. Add Privacy Policy
 
 # Uncertain Updates (20%, low chance in applying)
-1. Switch from illegal cross threads to legal cross threads
-(20% chance in applying due to the complexity in learning and applying)
-2. Add Blockchain's smart contract or something similar to make swapping
+1. Add Blockchain's smart contract or something similar to make swapping
 public key nearly impossible on server side (depends on skills, funds and
 complexity {20% chance in applying})
