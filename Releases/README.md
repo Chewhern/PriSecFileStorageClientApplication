@@ -25,8 +25,8 @@ https://dotnet.microsoft.com/download/dotnet-framework/net472
 (Choose the RunApps RunTime with either web/offline installer).
 
 ### For versions starting from 0.0.5 and after 0.0.5
-Try to run the application's exe, if you can't run the application's exe, then try to run the setup in
-this folder.
+Try to run the application's exe, if you can't run the application's exe, proceed with the instructions
+below and don't run the setup.exe 
 
 If you can't open the setup in this folder, then go to this link and install the required components.
 https://dotnet.microsoft.com/download/dotnet/5.0
