@@ -32,4 +32,5 @@ If you can't open the setup in this folder, then go to this link and install the
 https://dotnet.microsoft.com/download/dotnet/5.0
 
 You will need to download 5.0.9 or 5.0.10 **".Net Desktop Runtime"** and install them.\
-You will also need to download 5.0.9 or 5.0.10 **"ASP.Net Core Runtime"** and install them.
+You will also need to download 5.0.9 or 5.0.10 **"ASP.Net Core Runtime"** and install them.\
+**You must only download the same version of the components. If you install 5.0.9 then 2 of the components must also be 5.0.9 and the same applies to 5.0.10.**
