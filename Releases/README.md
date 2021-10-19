@@ -26,9 +26,9 @@ https://dotnet.microsoft.com/download/dotnet-framework/net472
 
 ### For versions starting from 0.0.5 and after 0.0.5
 Try to run the application's exe, if you can't run the application's exe, proceed with the instructions
-below and don't run the setup.exe 
+below
 
-If you can't open the setup in this folder, then go to this link and install the required components.
+Go to this link and install the required components.
 https://dotnet.microsoft.com/download/dotnet/5.0
 
 You will need to download 5.0.9 or 5.0.10 **".Net Desktop Runtime"** and install them.\
