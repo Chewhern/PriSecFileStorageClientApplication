@@ -7,3 +7,5 @@ able to understand the described technologies and use them.
 ## Web
 Web is a cross platform terminal application that was supported only for MacOS and Linux. It needs to launch through terminal and access through web browser.
 
+## Native Desktop
+Native desktop is a cross platform desktop application which aims to use the native os's user interface.
