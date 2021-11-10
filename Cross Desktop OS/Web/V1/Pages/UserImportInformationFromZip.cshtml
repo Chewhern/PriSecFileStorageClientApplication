@@ -1,0 +1,35 @@
+﻿@page
+@model PriSecFileStorageWeb.Pages.UserImportInformationFromZipModel
+@{
+    ViewData["Title"] = "User Import Information/Key";
+    int Loop = 0;
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="UserImportInformationFromZip">
+    <div class="mb-3">
+        <label for="File_Name" class="form-label">Select a file to import information/Key</label>
+        <br>
+        <select name="File_Name">
+            @if (Model.ListOfFileNames != null && Model.ListOfFileNames.Length != 0)
+            {
+                @while (Loop < Model.ListOfFileNames.Length)
+                {
+                    <option>@Model.ListOfFileNames[Loop]</option>
+                    Loop += 1;
+                }
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="Response" class="form-label">Response</label>
+        @if (Model.Status != null && Model.Status.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly value=@Model.Status>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Import Information From Zip</button>
+</form>

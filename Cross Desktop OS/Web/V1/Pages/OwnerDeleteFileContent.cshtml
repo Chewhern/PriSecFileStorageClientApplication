@@ -1,0 +1,84 @@
+﻿@page
+@model PriSecFileStorageWeb.Pages.OwnerDeleteFileContentModel
+@{
+    ViewData["Title"] = "Owner Delete Uploaded Encrypted File";
+    int Loop = 0;
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="OwnerDeleteFileContent">
+    <div class="mb-3">
+        <label for="Storage_ID" class="form-label">Current Selected Storage ID</label>
+        <br>
+        @if (Model.Current_Directory_ID != null && Model.Current_Directory_ID.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="Storage_ID" name="Storage_ID" aria-describedby="Storage_ID_Help" value=@Model.Current_Directory_ID readonly>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Storage_ID" name="Storage_ID" aria-describedby="Storage_ID_Help" readonly>
+        }
+    </div>
+    <div class="mb-3">
+        <label for="Random_File_Name" class="form-label">Select a random file</label>
+        <br>
+        <select name="Random_File_Name">
+            @if (Model.ListOfFileNames != null && Model.ListOfFileNames.Length != 0)
+            {
+                @while (Loop < Model.ListOfFileNames.Length)
+                {
+                    <option>@Model.ListOfFileNames[Loop]</option>
+                    Loop += 1;
+                }
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="Current_File_Name" class="form-label">Selected Random File Name</label>
+        @if (Model.Chosen_File_Name != null && Model.Chosen_File_Name.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="Current_File_Name" name="Current_File_Name" aria-describedby="Current_File_Name_Help" readonly value=@Model.Chosen_File_Name>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Current_File_Name" name="Current_File_Name" aria-describedby="Current_File_Name_Help" readonly>
+        }
+    </div>
+    <div class="mb-3">
+        <label for="File_Name" class="form-label">Selected Random File Name's Actual File Name</label>
+        @if (Model.File_Name != null && Model.File_Name.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="File_Name" name="File_Name" aria-describedby="File_Name_Help" readonly value=@Model.File_Name>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="File_Name" name="File_Name" aria-describedby="File_Name" readonly>
+        }
+    </div>
+    <div class="mb-3">
+        <label for="Storage_Size" class="form-label">Used space of storage in bytes (Maximum 1073741824 [1 GB] bytes)</label>
+        @if (Model.Storage_Size_In_String != null && Model.Storage_Size_In_String.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="Storage_Size" name="Storage_Size" aria-describedby="Storage_Size_Help" value=@Model.Storage_Size_In_String readonly>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Storage_Size" name="Storage_Size" aria-describedby="Storage_Size_Help" readonly>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary" asp-page-handler="GetFileName">1. Read Actual File Name</button>
+    <br>
+    <br>
+    <div class="mb-3">
+        <label for="Response" class="form-label">Response</label>
+        @if (Model.Status != null && Model.Status.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly value=@Model.Status>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly>
+        }
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">2. Delete File From Server And Local</button>
+</form>

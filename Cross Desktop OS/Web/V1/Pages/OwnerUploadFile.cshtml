@@ -1,0 +1,107 @@
+﻿@page
+@model PriSecFileStorageWeb.Pages.OwnerUploadFileModel
+@{
+    ViewData["Title"] = "Owner Upload File";
+    int Loop = 0;
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="OwnerUploadFile">
+    <div class="mb-3">
+        <label for="Storage_ID" class="form-label">Current Selected Storage ID</label>
+        <br>
+        @if (Model.Current_Directory_ID != null && Model.Current_Directory_ID.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="Storage_ID" name="Storage_ID" aria-describedby="Storage_ID_Help" value=@Model.Current_Directory_ID readonly>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Storage_ID" name="Storage_ID" aria-describedby="Storage_ID_Help" readonly>
+        }
+    </div>
+    <div class="mb-3">
+        <label for="File_Name" class="form-label">Select a file to encrypt</label>
+        <br>
+        <select name="File_Name">
+            @if (Model.ListOfFileNames != null && Model.ListOfFileNames.Length != 0)
+            {
+                @while (Loop < Model.ListOfFileNames.Length)
+                {
+                    <option>@Model.ListOfFileNames[Loop]</option>
+                    Loop += 1;
+                }
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="Storage_Size" class="form-label">Used space of storage in bytes (Maximum 1073741824 [1 GB] bytes)</label>
+        @if (Model.Storage_Size_In_String != null && Model.Storage_Size_In_String.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="Storage_Size" name="Storage_Size" aria-describedby="Storage_Size_Help" value=@Model.Storage_Size_In_String readonly>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Storage_Size" name="Storage_Size" aria-describedby="Storage_Size_Help" readonly>
+        }
+    </div>
+    <div class="mb-3">
+        <label for="File_Size" class="form-label">Size of file in bytes</label>
+        @if (Model.File_Size_In_String != null && Model.File_Size_In_String.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="File_Size" name="File_Size" aria-describedby="File_Size_Help" value=@Model.File_Size_In_String readonly>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="File_Size" name="File_Size" aria-describedby="File_Size_Help" readonly>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary" asp-page-handler="ReadFileSize">1. Read File Size</button>
+    <br>
+    <div class="mb-3">
+        <label for="Current_File_Name" class="form-label">Selected File Name</label>
+        @if (Model.Chosen_File_Name != null && Model.Chosen_File_Name.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="Current_File_Name" name="Current_File_Name" aria-describedby="Current_File_Name_Help" readonly value=@Model.Chosen_File_Name>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Current_File_Name" name="Current_File_Name" aria-describedby="Current_File_Name" readonly>
+        }
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Choose a symmetric encryption algorithm</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="SEAlgorithm" id="flexRadioDefault1" value="1">
+        <label class="form-check-label" for="flexRadioDefault1">
+            XSalsa20Poly1305
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="SEAlgorithm" id="flexRadioDefault2" value="2">
+        <label class="form-check-label" for="flexRadioDefault2">
+            XChaCha20Poly1305
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="SEAlgorithm" id="flexRadioDefault3" value="3">
+        <label class="form-check-label" for="flexRadioDefault3">
+            Hardware Accelerated AES256-GCM(Few device supports excluding servers)
+        </label>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" asp-page-handler="EncryptFile">2. Encrypt Selected File (Please read encrypt progress in console/terminal)</button>
+    <br>
+    <br>
+    <div class="mb-3">
+        <label for="Random_File_Name" class="form-label">Random File Name that was sent to server</label>
+        @if (Model.Random_File_Name != null && Model.Random_File_Name.CompareTo("") != 0)
+        {
+            <input type="text" class="form-control" id="Random_File_Name" name="Random_File_Name" aria-describedby="Random_File_Name_Help" readonly value=@Model.Random_File_Name>
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Random_File_Name" name="Random_File_Name" aria-describedby="Random_File_Name" readonly>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">3. Upload Encrypted File (Please read upload progress in console/terminal)</button>
+</form>

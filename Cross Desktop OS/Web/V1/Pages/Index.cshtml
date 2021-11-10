@@ -1,0 +1,35 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    @if (ViewData["Status"].ToString().Contains("True") == true)
+    {
+        <h1>Welcome</h1>
+        <br>
+        <h4>
+            Owner refers to either you are the owner of the storage(already owned) or
+            wants to become an owner to the storage(by buying)
+        </h4>
+        <br>
+        <h4>
+            User refers to you are the friend to any of the file storage's owner and they
+            give you permission to fetch their encrypted files and possibly decrypt them.
+        </h4>
+    }
+    else
+    {
+        <h1>Please restart the application.(Linux guide)</h1>
+        <br>
+        <h3>
+            Please shut down the application and navigate to the application then run
+            <b>dotnet application_name.dll</b> to restart the application
+        </h3>
+    }
+    <br>
+    <h6>If you are not using Linux, I can't give any useful information on how you can run this application.</h6>
+    <br>
+    <h6>Please keep an eye on the terminal/console/command prompt as all types of messages will be displayed there.</h6>
+</div>

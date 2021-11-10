@@ -1,0 +1,91 @@
+﻿@page
+@model PriSecFileStorageWeb.Pages.OwnerMakePaymentModel
+@{
+    ViewData["Title"] = "Owner Make Payment";
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="OwnerMakePayment">
+    <div class="mb-3">
+        <label for="Order_ID" class="form-label">Order ID</label>
+        @if (ViewData["Order_ID"] != null)
+        {
+            @if (ViewData["Order_ID"].ToString() != null && ViewData["Order_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Order_ID" name="Order_ID" aria-describedby="Order_ID_Help" readonly value=@ViewData["Order_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Order_ID" name="Order_ID" aria-describedby="Order_ID_Help" readonly>
+        }
+        <div id="Order_ID_Help" class="form-text">This will be your order ID(Not invoice ID)</div>
+    </div>
+    <div class="mb-3">
+        <label for="Payment_URL" class="form-label">Payment URL</label>
+        @if (ViewData["CheckOutPageURL"] != null)
+        {
+            @if (ViewData["CheckOutPageURL"].ToString() != null && ViewData["CheckOutPageURL"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Payment_URL" name="Payment_URL" aria-describedby="Payment_URL_Help" readonly value=@ViewData["CheckOutPageURL"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Payment_URL" name="Payment_URL" aria-describedby="Payment_URL_Help" readonly>
+        }
+        <div id="Payment_URL_Help" class="form-text">
+            Please make payment via this link through your paypal account or developer's paypal sandbox account(If the link contains sandbox) <br>
+            The sandbox account credentials can be found via this link https://github.com/Chewhern/PriSecFileStorageClientApplication/tree/main/Releases
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Payment</button>
+    <div class="mb-3">
+        <label for="Storage_ID" class="form-label">Purchased Storage ID</label>
+        @if (ViewData["Storage_ID"] != null)
+        {
+            @if (ViewData["Storage_ID"].ToString() != null && ViewData["Storage_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Storage_ID" name="Storage_ID" aria-describedby="Storage_ID_Help" readonly value=@ViewData["Storage_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Storage_ID" name="Storage_ID" aria-describedby="Storage_ID_Help" readonly>
+        }
+        <div id="Storage_ID_Help" class="form-text">This will be your file storage ID</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label text-danger font-weight-bold">By making payment, you agree to the privacy policy and the security documents.</label>
+    </div>
+    <button type="submit" class="btn btn-primary" asp-page-handler="VPayment">Verify Payment</button>
+</form>
+
+<br>
+<br>
+<br>
+<div>
+    <h3>Currently due to low demand, 1 GB of file storage costs 5 USD. By default you always pay for only 1 GB.</h3>
+    <br>
+    <br>
+    <h5>
+        The section below can only be understood if you read all the pdfs(layman's terms) in this
+        <a href="https://github.com/Chewhern/PriSecFileStorageClientApplication/tree/main/Releases/Version%200.0.5/User%20Guide">link</a>
+    </h5>
+    <br>
+    <h6>
+        This file storage uses total endpoint encryption/decryption and involves no secret on server side as all encryption/decryption
+        was done on user's device.
+    </h6>
+    <br>
+    <h6>
+        If you understand the C.I.A. in cybersecurity, this is an application that maxed out confidentiality(C) and have certain availability(50%)[A] as it
+        has DDOS protection but it does not guarantee it won't happen centralized point of failure as the data could be wiped out.
+    </h6>
+    <br>
+    <h6>
+        By default, there's 0% of integrity[I] which was one of the principles of C.I.A in cybersecurity because there's no account
+        binding to the file storage through your own private credentials(email/phone numbers) as those were leaved and stored only
+        at my PayPal's merchant account. Even though I proposed the binding of account in the pdfs but by giving those credentials, you
+        are actually sacrificing your privacy to achieve the integrity aspect in C.I.A.
+    </h6>
+</div>

@@ -1,0 +1,96 @@
+﻿@page
+@model PriSecFileStorageWeb.Pages.OwnerRemoveUserModel
+@{
+    ViewData["Title"] = "Owner Remove User";
+    int Loop = 0;
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="OwnerRemoveUser">
+    <div class="mb-3">
+        <label for="Storage_ID" class="form-label">Choose a storage ID</label>
+        <br>
+        <select name="Storage_ID">
+            @if (Model.ListOfStorageIDs != null && Model.ListOfStorageIDs.Length != 0)
+            {
+                @while (Loop < Model.ListOfStorageIDs.Length)
+                {
+                    <option>@Model.ListOfStorageIDs[Loop]</option>
+                    Loop += 1;
+                }
+                Loop = 0;
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="Access_ID" class="form-label">Select a user ID</label>
+        <br>
+        <select name="Access_ID">
+            @if (Model.ListOfAccessIDs != null && Model.ListOfAccessIDs.Length != 0)
+            {
+                @while (Loop < Model.ListOfAccessIDs.Length)
+                {
+                    <option>@Model.ListOfAccessIDs[Loop]</option>
+                    Loop += 1;
+                }
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="Remarks" class="form-label">Remarks</label>
+        @if (ViewData["Remarks"] != null)
+        {
+            @if (ViewData["Remarks"].ToString() != null && ViewData["Remarks"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Remarks" name="Remarks" aria-describedby="Remarks_Help" value=@ViewData["Remarks"].ToString() readonly>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Remarks" name="Remarks" aria-describedby="Remarks_Help" readonly>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary" asp-page-handler="ReadRemarks">1. Get Remarks (If Available)</button>
+    <div class="mb-3">
+        <label for="Current_Storage_ID" class="form-label">Selected Storage ID</label>
+        @if (ViewData["Current_Storage_ID"] != null)
+        {
+            @if (ViewData["Current_Storage_ID"].ToString() != null && ViewData["Current_Storage_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Current_Storage_ID" name="Current_Storage_ID" aria-describedby="Current_Storage_ID_Help" readonly value=@ViewData["Current_Storage_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Current_Storage_ID" name="Current_Storage_ID" aria-describedby="Current_Storage_Help" readonly>
+        }
+    </div>
+    <div class="mb-3">
+        <label for="Current_Storage_ID" class="form-label">Selected Access ID</label>
+        @if (ViewData["Current_Access_ID"] != null)
+        {
+            @if (ViewData["Current_Access_ID"].ToString() != null && ViewData["Current_Access_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Current_Access_ID" name="Current_Access_ID" aria-describedby="Current_Access_ID_Help" readonly value=@ViewData["Current_Access_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Current_Access_ID" name="Current_Access_ID" aria-describedby="Current_Access_ID_Help" readonly>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">2. Remove Access From User</button>
+    <div class="mb-3">
+        <label for="Response" class="form-label">Response</label>
+        @if (ViewData["Status"] != null)
+        {
+            @if (ViewData["Status"].ToString() != null && ViewData["Status"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly value=@ViewData["Status"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly>
+        }
+    </div>
+</form>

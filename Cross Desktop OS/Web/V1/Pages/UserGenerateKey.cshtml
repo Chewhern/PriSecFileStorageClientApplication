@@ -1,0 +1,84 @@
+﻿@page
+@model PriSecFileStorageWeb.Pages.UserGenerateKeyModel
+@{
+    ViewData["Title"] = "User Generate Key";
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="UserGenerateKey">
+    <div class="mb-3">
+        <label for="SK" class="form-label">SK</label>
+        @if (ViewData["SK"] != null)
+        {
+            @if (ViewData["SK"].ToString() != null && ViewData["SK"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="SK" name="SK" aria-describedby="SK_Help" readonly value=@ViewData["SK"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="SK" name="SK" aria-describedby="SK_Help" readonly>
+        }
+        <div id="SK_Help" class="form-text">This will be your ED25519 SK (Won't be send to server)</div>
+    </div>
+    <div class="mb-3">
+        <label for="Merged_PK" class="form-label">Merged PK</label>
+        @if (ViewData["Merged_PK"] != null)
+        {
+            @if (ViewData["Merged_PK"].ToString() != null && ViewData["Merged_PK"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Merged_PK" name="Merged_PK" aria-describedby="Merged_PK_Help" readonly value=@ViewData["Merged_PK"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Merged_PK" name="Merged_PK" aria-describedby="Merged_PK_Help" readonly>
+        }
+        <div id="Merged_PK_Help" class="form-text">This will be your Merged ED25519 PK (Will be send to server)[Signed ED25519PK + ED25519PK]</div>
+    </div>
+    <button type="submit" class="btn btn-primary">1. Create Keys</button>
+    <div class="mb-3">
+        <label for="Storage_ID" class="form-label">Storage ID</label>
+        @if (ViewData["Storage_ID"] != null)
+        {
+            @if (ViewData["Storage_ID"].ToString() != null && ViewData["Storage_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Storage_ID" name="Storage_ID" aria-describedby="Storage_ID_Help" value=@ViewData["Storage_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Storage_ID" name="Storage_ID" aria-describedby="Storage_ID_Help">
+        }
+        <div id="Storage_ID_Help" class="form-text">Please get the storage ID from the owner.</div>
+    </div>
+    <div class="mb-3">
+        <label for="Access_ID" class="form-label">Access ID</label>
+        @if (ViewData["Access_ID"] != null)
+        {
+            @if (ViewData["Access_ID"].ToString() != null && ViewData["Access_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Access_ID" name="Access_ID" aria-describedby="Access_ID_Help" value=@ViewData["Storage_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Access_ID" name="Access_ID" aria-describedby="Access_ID_Help">
+        }
+        <div id="Access_ID_Help" class="form-text">Please get the access ID from the owner.</div>
+    </div>
+    <div class="mb-3">
+        <label for="Response" class="form-label">Response</label>
+        @if (ViewData["Status"] != null)
+        {
+            @if (ViewData["Status"].ToString() != null && ViewData["Status"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly value=@ViewData["Status"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary" asp-page-handler="GAccess">2. Grant Access</button>
+</form>

@@ -1,0 +1,39 @@
+﻿@page
+@model PriSecFileStorageWeb.Pages.UserChooseStorageIDModel
+@{
+    ViewData["Title"] = "User Choose Storage ID";
+    int Loop = 0;
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="UserChooseStorageID">
+    <div class="mb-3">
+        <label for="Storage_ID" class="form-label">Choose a storage ID</label>
+        <br>
+        <select name="Storage_ID">
+            @if (Model.ListOfStorageIDs != null && Model.ListOfStorageIDs.Length != 0)
+            {
+                @while (Loop < Model.ListOfStorageIDs.Length)
+                {
+                    <option>@Model.ListOfStorageIDs[Loop]</option>
+                    Loop += 1;
+                }
+                Loop = 0;
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="Current_Storage_ID" class="form-label">You have chosen this storage ID</label>
+        @if (ViewData["Current_Storage_ID"] != null)
+        {
+            @if (ViewData["Current_Storage_ID"].ToString() != null && ViewData["Current_Storage_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Current_Storage_ID" name="Current_Storage_ID" aria-describedby="Current_Storage_ID_Help" readonly value=@ViewData["Current_Storage_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Current_Storage_ID" name="Current_Storage_ID" aria-describedby="Current_Storage_Help" readonly>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Choose Directory</button>
+</form>

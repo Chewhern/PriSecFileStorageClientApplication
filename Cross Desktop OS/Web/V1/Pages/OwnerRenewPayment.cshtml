@@ -1,0 +1,73 @@
+﻿@page
+@model PriSecFileStorageWeb.Pages.OwnerRenewPaymentModel
+@{
+    ViewData["Title"] = "Owner Renew Payment";
+    int Loop = 0;
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="OwnerRenewPayment">
+    <div class="mb-3">
+        <label for="Order_ID" class="form-label">Order ID</label>
+        @if (ViewData["Order_ID"] != null)
+        {
+            @if (ViewData["Order_ID"].ToString() != null && ViewData["Order_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Order_ID" name="Order_ID" aria-describedby="Order_ID_Help" readonly value=@ViewData["Order_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Order_ID" name="Order_ID" aria-describedby="Order_ID_Help" readonly>
+        }
+        <div id="Order_ID_Help" class="form-text">This will be your order ID(Not invoice ID)</div>
+    </div>
+    <div class="mb-3">
+        <label for="Payment_URL" class="form-label">Payment URL</label>
+        @if (ViewData["CheckOutPageURL"] != null)
+        {
+            @if (ViewData["CheckOutPageURL"].ToString() != null && ViewData["CheckOutPageURL"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Payment_URL" name="Payment_URL" aria-describedby="Payment_URL_Help" readonly value=@ViewData["CheckOutPageURL"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Payment_URL" name="Payment_URL" aria-describedby="Payment_URL_Help" readonly>
+        }
+        <div id="Payment_URL_Help" class="form-text">
+            Please make payment via this link through your paypal account or developer's paypal sandbox account(If the link contains sandbox) <br>
+            The sandbox account credentials can be found via this link https://github.com/Chewhern/PriSecFileStorageClientApplication/tree/main/Releases
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Payment</button>
+    <br>
+    <div class="mb-3">
+        <label for="Storage_ID" class="form-label">Choose a storage ID</label>
+        <br>
+        <select name="Storage_ID">
+            @if (Model.ListOfStorageIDs != null && Model.ListOfStorageIDs.Length != 0)
+            {
+                @while (Loop < Model.ListOfStorageIDs.Length)
+                {
+                    <option>@Model.ListOfStorageIDs[Loop]</option>
+                    Loop += 1;
+                }
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="Response" class="form-label">Response</label>
+        @if (ViewData["Status"] != null)
+        {
+            @if (ViewData["Status"].ToString() != null && ViewData["Status"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly value=@ViewData["Status"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary" asp-page-handler="VPayment">Verify Payment</button>
+</form>

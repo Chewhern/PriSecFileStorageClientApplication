@@ -1,0 +1,99 @@
+﻿@page
+@model PriSecFileStorageWeb.Pages.OwnerAddUserModel
+@{
+    ViewData["Title"] = "Owner Add User";
+    int Loop = 0;
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="OwnerAddUser">
+    <div class="mb-3">
+        <label for="Merged_PK" class="form-label">Merged PK</label>
+        @if (ViewData["Merged_PK"] != null)
+        {
+            @if (ViewData["Merged_PK"].ToString() != null && ViewData["Merged_PK"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Merged_PK" name="Merged_PK" aria-describedby="Merged_PK_Help" value=@ViewData["Merged_PK"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Merged_PK" name="Merged_PK" aria-describedby="Merged_PK_Help">
+        }
+        <div id="Merged_PK_Help" class="form-text">Please get the merged PK from user</div>
+    </div>
+    <br>
+    <div class="mb-3">
+        <label for="Storage_ID" class="form-label">Choose a storage ID</label>
+        <br>
+        <select name="Storage_ID">
+            @if (Model.ListOfStorageIDs != null && Model.ListOfStorageIDs.Length != 0)
+            {
+                @while (Loop < Model.ListOfStorageIDs.Length)
+                {
+                    <option>@Model.ListOfStorageIDs[Loop]</option>
+                    Loop += 1;
+                }
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="Current_Storage_ID" class="form-label">Current Storage ID</label>
+        @if (ViewData["Current_Storage_ID"] != null)
+        {
+            @if (ViewData["Current_Storage_ID"].ToString() != null && ViewData["Current_Storage_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Current_Storage_ID" name="Current_Storage_ID" aria-describedby="Current_Storage_ID_Help" readonly value=@ViewData["Current_Storage_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Current_Storage_ID" name="Current_Storage_ID" aria-describedby="Current_Storage_ID_Help" readonly>
+        }
+        <div id="Current_Storage_ID_Help" class="form-text">Please give this storage ID to the user</div>
+    </div>
+    <div class="mb-3">
+        <label for="Access_ID" class="form-label">Access ID</label>
+        @if (ViewData["Access_ID"] != null)
+        {
+            @if (ViewData["Access_ID"].ToString() != null && ViewData["Access_ID"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Access_ID" name="Access_ID" aria-describedby="Access_ID_Help" readonly value=@ViewData["Access_ID"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Access_ID" name="Access_ID" aria-describedby="Access_ID_Help" readonly>
+        }
+        <div id="Access_ID_Help" class="form-text">Please give this access ID to the user</div>
+    </div>
+    <div class="mb-3">
+        <label for="Remarks" class="form-label">Remarks</label>
+        @if (ViewData["Remarks"] != null)
+        {
+            @if (ViewData["Remarks"].ToString() != null && ViewData["Remarks"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Remarks" name="Remarks" aria-describedby="Remarks_Help" value=@ViewData["Remarks"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Remarks" name="Remarks" aria-describedby="Remarks_Help">
+        }
+        <div id="Remarks_Help" class="form-text">(Optional)Give any comments to this user if it will be easier for you to remember</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Grant Access to User</button>
+    <div class="mb-3">
+        <label for="Response" class="form-label">Response</label>
+        @if (ViewData["Status"] != null)
+        {
+            @if (ViewData["Status"].ToString() != null && ViewData["Status"].ToString().CompareTo("") != 0)
+            {
+                <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly value=@ViewData["Status"].ToString()>
+            }
+        }
+        else
+        {
+            <input type="text" class="form-control" id="Response" name="Response" aria-describedby="Response_Help" readonly>
+        }
+    </div>
+</form>
