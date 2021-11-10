@@ -44,6 +44,10 @@ windows application**
 2. 0.0.4 is a client application that includes problematic privacy based MFA
 3. 0.0.5 is a client application that switches from .Net Framework to .Net 5
 
+## Versions (Cross Desktop OS- Web) --It's recommended to use this version for MacOS and Linux as a short-term solution.
+Simply navigate to **Cross Desktop OS** and then navigate to **Web** to find instruction on how you can compile and
+run the application by your own.
+
 ### What exactly is PriSecFileStorage?
   <br>-> It's an online file storage system that was built based on zero trust towards the service provider.
   <br>-> This is an application that uses no password in logging in or generating cryptography keys
