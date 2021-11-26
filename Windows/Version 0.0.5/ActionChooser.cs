@@ -46,6 +46,7 @@ namespace PriSecFileStorageClient
 
         private void ActionChooser_Load(object sender, EventArgs e)
         {
+            String Base64Result = "";
             if (Directory.Exists(Application.StartupPath + "\\Temp_Session\\") == false) 
             {
                 Directory.CreateDirectory(Application.StartupPath + "\\Temp_Session");
@@ -69,19 +70,26 @@ namespace PriSecFileStorageClient
             }
             else
             {
-                InitiateETLSDeletion();
-                if (File.Exists(Application.StartupPath + "\\Error_Data\\Action_Chooser\\InitiateHandShakeDeleteStatus.txt") == true)
+                InitiateETLSDeletion(ref Base64Result);
+                if(Base64Result!=null && Base64Result.CompareTo("") != 0) 
                 {
-                    MessageBox.Show("Please read the error data that exists in 'Error_Data' folder", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    DeleteETLSSession();
-                    if (File.Exists(Application.StartupPath + "\\Error_Data\\Action_Chooser\\DeleteHandShakeSessionIDStatus.txt") == true)
+                    if (File.Exists(Application.StartupPath + "\\Error_Data\\Action_Chooser\\InitiateHandShakeDeleteStatus.txt") == true)
                     {
                         MessageBox.Show("Please read the error data that exists in 'Error_Data' folder", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                    else
+                    {
+                        DeleteETLSSession(Base64Result);
+                        if (File.Exists(Application.StartupPath + "\\Error_Data\\Action_Chooser\\DeleteHandShakeSessionIDStatus.txt") == true)
+                        {
+                            MessageBox.Show("Please read the error data that exists in 'Error_Data' folder", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
+                else 
+                {
+                    MessageBox.Show("Can't request random challenge from server", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }                
             }
             if(Directory.Exists(Application.StartupPath + "\\Application_Data\\" + "Server_Directory_Data") == false) 
             {
@@ -256,7 +264,6 @@ namespace PriSecFileStorageClient
             CheckBoolean = false;
             Boolean CheckServerOnline = true;
             String CheckSharedSecretStatus = "";
-            Byte[] ValidationData = SodiumRNG.GetRandomBytes(128);
             Byte[] TestData = new Byte[] { 255, 255, 255 };
             Byte[] SharedSecretByte = SodiumScalarMult.Mult(SessionECDHPrivateKey, ServerECDHPKByte, true);
             Byte[] NonceByte = SodiumSecretBox.GenerateNonce();
@@ -266,7 +273,7 @@ namespace PriSecFileStorageClient
             CheckSharedSecretHttpClient.DefaultRequestHeaders.Accept.Clear();
             CheckSharedSecretHttpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
-            var CheckSharedSecretHttpClientResponse = CheckSharedSecretHttpClient.GetAsync("ECDH_ECDSA_TempSession/BySharedSecret?ClientPathID=" + MySession_ID + "&CipheredData=" + System.Web.HttpUtility.UrlEncode(Convert.ToBase64String(TestEncryptedData)) + "&Nonce=" + System.Web.HttpUtility.UrlEncode(Convert.ToBase64String(NonceByte)) + "&RVData=" + System.Web.HttpUtility.UrlEncode(Convert.ToBase64String(ValidationData)));
+            var CheckSharedSecretHttpClientResponse = CheckSharedSecretHttpClient.GetAsync("ECDH_ECDSA_TempSession/BySharedSecret?ClientPathID=" + MySession_ID + "&CipheredData=" + System.Web.HttpUtility.UrlEncode(Convert.ToBase64String(TestEncryptedData)) + "&Nonce=" + System.Web.HttpUtility.UrlEncode(Convert.ToBase64String(NonceByte)));
             try
             {
                 CheckSharedSecretHttpClientResponse.Wait();
@@ -295,14 +302,12 @@ namespace PriSecFileStorageClient
                         {
                             File.WriteAllBytes(Application.StartupPath + "\\Temp_Session\\" + MySession_ID + "\\" + "SharedSecret.txt", SharedSecretByte);
                             File.WriteAllBytes(Application.StartupPath + "\\Temp_Session\\" + MySession_ID + "\\" + "ECDSASK.txt", SessionECDSAPrivateKey);
-                            File.WriteAllBytes(Application.StartupPath + "\\Temp_Session\\" + MySession_ID + "\\" + "RVData.txt", ValidationData);
                         }
                         else
                         {
                             Directory.CreateDirectory(Application.StartupPath + "\\Temp_Session\\" + MySession_ID);
                             File.WriteAllBytes(Application.StartupPath + "\\Temp_Session\\" + MySession_ID + "\\" + "SharedSecret.txt", SharedSecretByte);
                             File.WriteAllBytes(Application.StartupPath + "\\Temp_Session\\" + MySession_ID + "\\" + "ECDSASK.txt", SessionECDSAPrivateKey);
-                            File.WriteAllBytes(Application.StartupPath + "\\Temp_Session\\" + MySession_ID + "\\" + "RVData.txt", ValidationData);
                             File.WriteAllText(Application.StartupPath + "\\Temp_Session\\" + "SessionID.txt", MySession_ID);
                         }
                         ETLSSessionIDStorage.ETLSID = MySession_ID;
@@ -321,7 +326,7 @@ namespace PriSecFileStorageClient
             }
         }
 
-        public void InitiateETLSDeletion()
+        public void InitiateETLSDeletion(ref String Base64Result)
         {
             StreamReader MyStreamReader = new StreamReader(Application.StartupPath + "\\Temp_Session\\" + "SessionID.txt");
             String Temp_Session_ID = MyStreamReader.ReadLine();
@@ -356,6 +361,10 @@ namespace PriSecFileStorageClient
                         {
                             File.WriteAllText(Application.StartupPath + "\\Error_Data\\Action_Chooser\\InitiateHandShakeDeleteStatus.txt", Result);
                         }
+                        else 
+                        {
+                            Base64Result = Result.Substring(1, Result.Length - 2);
+                        }
                     }
                     else
                     {
@@ -369,14 +378,14 @@ namespace PriSecFileStorageClient
             }
         }
 
-        public void DeleteETLSSession()
+        public void DeleteETLSSession(String Base64Result)
         {
             Boolean ServerOnlineChecker = true;
             StreamReader MyStreamReader = new StreamReader(Application.StartupPath + "\\Temp_Session\\" + "SessionID.txt");
             String Temp_Session_ID = MyStreamReader.ReadLine();
             MyStreamReader.Close();
             Byte[] ClientECDSASKByte = new Byte[] { };
-            Byte[] RandomData = File.ReadAllBytes(Application.StartupPath + "\\Temp_Session\\" + Temp_Session_ID + "\\" + "RVData.txt");
+            Byte[] RandomData = Convert.FromBase64String(Base64Result);
             Byte[] SignedRandomData = new Byte[] { };
             String Status = "";
             if (Temp_Session_ID != null && Temp_Session_ID.CompareTo("") != 0)
