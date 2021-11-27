@@ -19,10 +19,9 @@
 4. Added some missing functionality
 5. No longer uses illegal cross threads
 6. Add User Guide
-7. Remove problematic privacy based MFA as mobile application hasn't been started and the server side hasn't fully implemented privacy based MFA
-8. Add User Manual
-9. Add T&C
-10. Add Privacy Policy
+7. Add User Manual
+8. Add T&C
+9. Add Privacy Policy
 
 # Uncertain Updates (20%, low chance in applying)
 1. Add Blockchain's smart contract or something similar to make swapping
