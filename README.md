@@ -2,15 +2,16 @@
 
 ```
 Disclaimer: If you come from any country that blocked Signal/WhatsApp/Session/Threema/Matrix messaging application
-such as China, you are advised to not use it publicly. The cyberlaw or cryptography law within China allows
-only the use of cryptography in such a way that only technology like TLS/SSL/SSH exists. There's also a work
-around to this problem, which was you store all the encryption keys in server/service provider side. However,
-any people who has basic information security or cyber security or cryptography understanding, will know that,
-this makes the server or service provider or network an extremely obvious and vulnerable target to both hackers
-within the service provider side or outsider hacker. If that do happens or if the server do get hacked(which
-is 100% or almost close to 100%), just to give you an idea.. Your card details, your passwords, your email,
-your phone number will be published to internet in an unauthorized way(darkweb), law does not help as this
-happens so frequently in open society let alone in close society. Using such mechanism is almost a suicide.
+such as China excluding Macao/Taiwan/Hong Kong, you are advised to not use it publicly. The cyberlaw or cryptography
+law within China allows only the use of cryptography in such a way that only technology like TLS/SSL/SSH exists.
+There's also a work around to this problem, which was you store all the encryption keys in server/service provider
+side. However, any people who has basic information security or cyber security or cryptography understanding, will
+know that, this makes the server or service provider or network an extremely obvious and vulnerable target to
+both hackers within the service provider side or outsider hacker. If that do happens or if the server do
+get hacked(which is 100% or almost close to 100%), just to give you an idea.. Your card details,
+your passwords, your email, your phone number will be published to internet in an unauthorized way(darkweb),
+law does not help as this happens so frequently in open society let alone in close society.
+Using such mechanism is almost a suicide.
 
 There's one more workaround to this problem which is include backdoor in the cryptography algorithm. This
 was also not logic at all because all the algorithm is publicly available, there're also papers that written
