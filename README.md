@@ -2,7 +2,7 @@
 
 ```
 Disclaimer: If you come from any country that blocked Signal/WhatsApp/Session/Threema/Matrix messaging application
-such as China excluding Macao/Taiwan/Hong Kong, you are advised to not use it publicly. The cyberlaw or cryptography
+such as China excluding Macao,Taiwan & Hong Kong, you are advised to not use it publicly. The cyberlaw or cryptography
 law within China allows only the use of cryptography in such a way that only technology like TLS/SSL/SSH exists.
 There's also a work around to this problem, which was you store all the encryption keys in server/service provider
 side. However, any people who has basic information security or cyber security or cryptography understanding, will
