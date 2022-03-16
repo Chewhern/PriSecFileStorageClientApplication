@@ -12,16 +12,18 @@
 1. Add problematic privacy based MFA
 2. Add emergency delete function to delete MFA device data
 
-# Version 0.0.5 (Probably final and bugs were reduced)
+# Version 0.0.5 (Discover some features that has not yet implemented)
 1. Switch from .Net Framework 4.7.2 to .Net 5
 2. Add better UI
 3. Fixes some bugs
 4. Added some missing functionality
 5. No longer uses illegal cross threads
-6. Add User Guide
-7. Add User Manual
-8. Add T&C
-9. Add Privacy Policy
+
+# Version 0.0.6
+1. Implement proper AES256GCM encryption and decryption
+2. Fixes some encryption and decryption bug
+3. Reduces unnecessary code
+4. Allows users to change the server's address in a text file
 
 # Uncertain Updates (20%, low chance in applying)
 1. Add Blockchain's smart contract or something similar to make swapping
