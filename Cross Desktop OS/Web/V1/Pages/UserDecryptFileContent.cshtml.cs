@@ -154,7 +154,14 @@ namespace PriSecFileStorageWeb.Pages
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                    if (APIIPAddressHelper.HasSet == true)
+                    {
+                        client.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+                    }
+                    else
+                    {
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                    }
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json"));
@@ -269,7 +276,14 @@ namespace PriSecFileStorageWeb.Pages
                 ETLSSignedRandomFileNameByte = SodiumPublicKeyAuth.Sign(RandomFileNameByte, ClientECDSASK, true);
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                    if (APIIPAddressHelper.HasSet == true)
+                    {
+                        client.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+                    }
+                    else
+                    {
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                    }
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json"));
@@ -378,7 +392,14 @@ namespace PriSecFileStorageWeb.Pages
                 ETLSSignedRandomFileNameByte = SodiumPublicKeyAuth.Sign(RandomFileNameByte, ClientECDSASK, true);
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                    if (APIIPAddressHelper.HasSet == true)
+                    {
+                        client.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+                    }
+                    else
+                    {
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                    }
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json"));

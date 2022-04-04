@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PriSecFileStorageWeb.Model;
+using PriSecFileStorageWeb.Helper;
 using ASodium;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -68,7 +69,14 @@ namespace PriSecFileStorageWeb.Pages
             Boolean CheckServerBoolean = true;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                if (APIIPAddressHelper.HasSet == true)
+                {
+                    client.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+                }
+                else
+                {
+                    client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                }
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -157,7 +165,14 @@ namespace PriSecFileStorageWeb.Pages
                     ETLSSignedCombinedCipheredED25519PK = SodiumPublicKeyAuth.Sign(CombinedCipheredED25519PK, ClientECDSASK, true);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                        if (APIIPAddressHelper.HasSet == true)
+                        {
+                            client.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+                        }
+                        else
+                        {
+                            client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                        }
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(
                             new MediaTypeWithQualityHeaderValue("application/json"));
