@@ -55,6 +55,16 @@ namespace PriSecFileStorageWeb
             {
                 Directory.CreateDirectory(RootDirectory + "Application_Settings");
             }
+            if(System.IO.File.Exists(RootDirectory + "Application_Settings/IP_Address.txt")==false)
+            {
+                System.IO.File.WriteAllText(RootDirectory + "Application_Settings/IP_Address.txt", "https://mrchewitsoftware.com.my:5001/api/");
+            }
+            else
+            {
+                String IP_Address = System.IO.File.ReadAllText(RootDirectory + "Application_Settings/IP_Address.txt");
+                APIIPAddressHelper.IPAddress = IP_Address;
+                APIIPAddressHelper.HasSet=true;
+            }
             if (Directory.Exists(RootDirectory + "Temp_Session") == false)
             {
                 Directory.CreateDirectory(RootDirectory + "Temp_Session");
