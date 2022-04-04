@@ -19,7 +19,7 @@
 4. Added some missing functionality
 5. No longer uses illegal cross threads
 
-# Version 0.0.6
+# Version 0.0.6 (Current)
 1. Implement proper AES256GCM encryption and decryption
 2. Fixes some encryption and decryption bug
 3. Reduces unnecessary code
