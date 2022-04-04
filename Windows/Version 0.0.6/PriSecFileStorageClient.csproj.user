@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PublishUrlHistory>C:\Users\chew\Desktop\HernITSoftware\C# WinForm\Software\PriSecFileStorageClient Software\|C:\Users\chew\Desktop\HernITSoftware\C# WinForm\Software\|publish\</PublishUrlHistory>
+    <InstallUrlHistory />
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup>
+    <EnableSecurityDebugging>false</EnableSecurityDebugging>
+    <_LastSelectedProfileId>C:\Users\chew\Desktop\HernITSoftware\C# WinForm\Net 5\Coding\PriSecFileStorageClient\Properties\PublishProfiles\FolderProfile1.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="ActionChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ImportInformationFromZip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OfflineBackupAllKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerActionChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerAddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerCheckFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerDecryptFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerDeleteFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerMakePayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerRemoveUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerRenewPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerStorageActions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerUploadFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OwnerViewAllowedUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserActionChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserDecryptFileContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserGenerateKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserImportInformationFromZip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserOfflineBackupAllKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserStorageActions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
