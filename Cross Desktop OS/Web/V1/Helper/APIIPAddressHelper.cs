@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PriSecFileStorageClient.Helper
+namespace PriSecFileStorageWeb.Helper
 {
     public static class APIIPAddressHelper
     {
