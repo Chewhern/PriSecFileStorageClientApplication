@@ -51,19 +51,19 @@ namespace PriSecFileStorageWeb
             //Get the application startup path
             RootDirectory = AppContext.BaseDirectory;
             String Base64Result = "";
-            if(Directory.Exists(RootDirectory + "Application_Settings") == false)
+            if (Directory.Exists(RootDirectory + "Application_Settings") == false)
             {
                 Directory.CreateDirectory(RootDirectory + "Application_Settings");
             }
-            if(System.IO.File.Exists(RootDirectory + "Application_Settings/IP_Address.txt")==false)
+            if (File.Exists(RootDirectory + "Application_Settings/IP_Address.txt") == false)
             {
-                System.IO.File.WriteAllText(RootDirectory + "Application_Settings/IP_Address.txt", "https://mrchewitsoftware.com.my:5001/api/");
+                File.WriteAllText(RootDirectory + "Application_Settings/IP_Address.txt", "https://mrchewitsoftware.com.my:5001/api/");
             }
             else
             {
-                String IP_Address = System.IO.File.ReadAllText(RootDirectory + "Application_Settings/IP_Address.txt");
+                String IP_Address = File.ReadAllText(RootDirectory + "Application_Settings/IP_Address.txt");
                 APIIPAddressHelper.IPAddress = IP_Address;
-                APIIPAddressHelper.HasSet=true;
+                APIIPAddressHelper.HasSet = true;
             }
             if (Directory.Exists(RootDirectory + "Temp_Session") == false)
             {
@@ -151,7 +151,14 @@ namespace PriSecFileStorageWeb
             String ExceptionString = "";
             using (var InitializeHandShakeHttpclient = new HttpClient())
             {
-                InitializeHandShakeHttpclient.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                if (APIIPAddressHelper.HasSet == true) 
+                {
+                    InitializeHandShakeHttpclient.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+                }
+                else 
+                {
+                    InitializeHandShakeHttpclient.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                }
                 InitializeHandShakeHttpclient.DefaultRequestHeaders.Accept.Clear();
                 InitializeHandShakeHttpclient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
@@ -244,6 +251,14 @@ namespace PriSecFileStorageWeb
             CheckBoolean = false;
             String SessionStatus = "";
             var CreateSharedSecretHttpClient = new HttpClient();
+            if (APIIPAddressHelper.HasSet == true)
+            {
+                CreateSharedSecretHttpClient.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+            }
+            else
+            {
+                CreateSharedSecretHttpClient.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+            }
             CreateSharedSecretHttpClient.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
             CreateSharedSecretHttpClient.DefaultRequestHeaders.Accept.Clear();
             CreateSharedSecretHttpClient.DefaultRequestHeaders.Accept.Add(
@@ -292,7 +307,14 @@ namespace PriSecFileStorageWeb
             Byte[] NonceByte = SodiumSecretBox.GenerateNonce();
             Byte[] TestEncryptedData = SodiumSecretBox.Create(TestData, NonceByte, SharedSecretByte);
             var CheckSharedSecretHttpClient = new HttpClient();
-            CheckSharedSecretHttpClient.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+            if (APIIPAddressHelper.HasSet == true)
+            {
+                CheckSharedSecretHttpClient.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+            }
+            else
+            {
+                CheckSharedSecretHttpClient.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+            }
             CheckSharedSecretHttpClient.DefaultRequestHeaders.Accept.Clear();
             CheckSharedSecretHttpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -357,7 +379,14 @@ namespace PriSecFileStorageWeb
             Boolean CheckServerOnline = true;
             using (var InitializeHandShakeHttpclient = new HttpClient())
             {
-                InitializeHandShakeHttpclient.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                if (APIIPAddressHelper.HasSet == true)
+                {
+                    InitializeHandShakeHttpclient.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+                }
+                else
+                {
+                    InitializeHandShakeHttpclient.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                }
                 InitializeHandShakeHttpclient.DefaultRequestHeaders.Accept.Clear();
                 InitializeHandShakeHttpclient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
@@ -417,6 +446,14 @@ namespace PriSecFileStorageWeb
                 {
                     ClientECDSASKByte = File.ReadAllBytes(RootDirectory + "/Temp_Session/" + Temp_Session_ID + "/ECDSASK.txt");
                     SignedRandomData = SodiumPublicKeyAuth.Sign(RandomData, ClientECDSASKByte, true);
+                    if (APIIPAddressHelper.HasSet == true)
+                    {
+                        client.BaseAddress = new Uri(APIIPAddressHelper.IPAddress);
+                    }
+                    else
+                    {
+                        client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
+                    }
                     client.BaseAddress = new Uri("https://mrchewitsoftware.com.my:5001/api/");
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(
