@@ -51,6 +51,10 @@ namespace PriSecFileStorageWeb
             //Get the application startup path
             RootDirectory = AppContext.BaseDirectory;
             String Base64Result = "";
+            if(Directory.Exists(RootDirectory + "Application_Settings") == false)
+            {
+                Directory.CreateDirectory(RootDirectory + "Application_Settings");
+            }
             if (Directory.Exists(RootDirectory + "Temp_Session") == false)
             {
                 Directory.CreateDirectory(RootDirectory + "Temp_Session");
